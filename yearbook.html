@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yearbook 2025 — Tendercare Comprehensive College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tendercare.css">
+  <style>
+    body { background: #EDE5D8; color: #2A1E10; }
+
+    /* Paper texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(0,0,0,0.012) 24px,rgba(0,0,0,0.012) 25px);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* Portrait placeholder */
+    .portrait-ph {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+    }
+    .portrait-ph__circle {
+      width: 40%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.12);
+    }
+    .portrait-ph__bar {
+      width: 50%;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(0,0,0,0.08);
+    }
+    .portrait-ph__bar--sm {
+      width: 35%;
+      height: 5px;
+    }
+
+    /* Yearbook nav override */
+    .nav--yearbook.nav--scrolled {
+      background: rgba(237,229,216,0.95);
+      backdrop-filter: blur(12px);
+    }
+
+    /* Section divider ornament */
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin: var(--space-10) 0;
+    }
+    .ornament__line {
+      flex: 1;
+      height: 1px;
+      background: var(--color-wine);
+      opacity: 0.3;
+    }
+    .ornament__center {
+      font-family: var(--font-serif);
+      font-size: var(--text-lg);
+      color: var(--color-wine);
+      opacity: 0.5;
+    }
+
+    /* Class motto */
+    .class-motto {
+      font-family: var(--font-serif);
+      font-size: var(--text-2xl);
+      font-weight: 300;
+      font-style: italic;
+      color: #2A1E10;
+      line-height: var(--leading-snug);
+      border-left: 3px solid var(--color-wine);
+      padding-left: var(--space-6);
+      opacity: 0.8;
+    }
+
+    /* Portrait grid colors per student */
+    .ph--1 { background: linear-gradient(160deg,#d8cfc4,#c8bfb4); }
+    .ph--2 { background: linear-gradient(160deg,#c4cfd8,#b4bfc8); }
+    .ph--3 { background: linear-gradient(160deg,#d8d4c4,#c8c4b4); }
+    .ph--4 { background: linear-gradient(160deg,#cfd4c4,#bfc4b4); }
+    .ph--5 { background: linear-gradient(160deg,#d4cfc8,#c4bfb8); }
+    .ph--6 { background: linear-gradient(160deg,#d8cbc4,#c8bbb4); }
+    .ph--7 { background: linear-gradient(160deg,#cbd8c4,#bbc8b4); }
+    .ph--8 { background: linear-gradient(160deg,#d4d8c4,#c4c8b4); }
+
+    /* Footer */
+    .site-footer { background:var(--color-ink);color:var(--color-cream);padding:var(--space-10) var(--space-5) var(--space-8); }
+    .site-footer__copy { font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.35;margin-top:var(--space-8); }
+    .site-footer__links { display:flex;flex-wrap:wrap;gap:var(--space-6);margin-bottom:var(--space-4); }
+    .site-footer__link { font-family:var(--font-sans);font-size:var(--text-sm);opacity:0.5;transition:opacity 0.2s; }
+    .site-footer__link:hover { opacity:1; }
+  </style>
+</head>
+<body class="page--yearbook">
+
+  <div class="page-transition page-transition--in"></div>
+
+  <!-- Nav -->
+  <nav class="nav nav--transparent nav--yearbook">
+    <a href="index.html" class="nav__logo">
+      <span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:500;color:#2A1E10;letter-spacing:0.02em;">TCC</span>
+    </a>
+    <div class="nav__links">
+      <a href="index.html" class="nav__link" style="color:#2A1E10;">Home</a>
+      <a href="sports.html" class="nav__link" style="color:#2A1E10;">Sports</a>
+      <a href="yearbook.html" class="nav__link nav__link--active" style="color:#2A1E10;">Yearbook</a>
+      <a href="awards.html" class="nav__link" style="color:#2A1E10;">Awards</a>
+      <a href="feed.html" class="nav__link" style="color:#2A1E10;">Feed</a>
+      <a href="about.html" class="nav__link" style="color:#2A1E10;">About</a>
+    </div>
+    <button class="nav__toggle" style="color:#2A1E10;" aria-label="Menu">
+      <span class="nav__toggle-bar" style="background:#2A1E10;"></span>
+      <span class="nav__toggle-bar" style="background:#2A1E10;"></span>
+      <span class="nav__toggle-bar" style="background:#2A1E10;"></span>
+    </button>
+  </nav>
+
+  <div class="nav__drawer">
+    <a href="index.html" class="nav__drawer-link">Home</a>
+    <a href="sports.html" class="nav__drawer-link">Sports</a>
+    <a href="yearbook.html" class="nav__drawer-link">Yearbook</a>
+    <a href="awards.html" class="nav__drawer-link">Awards</a>
+    <a href="feed.html" class="nav__drawer-link">Feed</a>
+    <a href="about.html" class="nav__drawer-link">About</a>
+  </div>
+
+  <!-- Cover -->
+  <section class="yearbook__cover" style="background:#EDE5D8;">
+    <div class="yearbook__cover-year" style="font-size:clamp(6rem,30vw,14rem);">2025</div>
+    <div class="yearbook__cover-content" style="animation:fadeUp 1s var(--ease-out) 0.2s both;">
+      <span class="yearbook__cover-class" style="margin-bottom:var(--space-5);display:block;" data-animate="fade-up">Tendercare Comprehensive College</span>
+      <h1 class="yearbook__cover-title">Class of 2025</h1>
+      <div class="yearbook__dedication-line"></div>
+      <p style="font-family:var(--font-body);font-style:italic;font-size:var(--text-base);opacity:0.55;max-width:30ch;margin:0 auto;line-height:var(--leading-loose);">
+        To every student who walked through these gates and left bigger than when they arrived.
+      </p>
+    </div>
+  </section>
+
+  <!-- Dedication -->
+  <section class="yearbook__dedication" style="background:#E8DFCF;">
+    <div class="container container--md">
+      <p class="class-motto" data-animate="fade-up">
+        "We were not just students here.<br>We were becoming."
+      </p>
+      <p style="font-family:var(--font-sans);font-size:var(--text-xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;opacity:0.4;margin-top:var(--space-6);" data-animate="fade-up">— Class of 2025 Dedication</p>
+    </div>
+  </section>
+
+  <!-- Group photo placeholder -->
+  <section style="background:#D8CFC4;position:relative;overflow:hidden;">
+    <div class="yearbook__group" style="aspect-ratio:16/7;max-height:480px;">
+      <div style="width:100%;height:100%;background:linear-gradient(160deg,#c8bfb4,#d8d0c4);display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;padding:var(--space-8);">
+          <p style="font-family:var(--font-serif);font-size:var(--text-xl);color:rgba(42,30,16,0.3);font-style:italic;">Class Group Photograph</p>
+          <p style="font-family:var(--font-sans);font-size:var(--text-xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:rgba(42,30,16,0.2);margin-top:var(--space-3);">Replace with your image</p>
+        </div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:var(--space-6);left:0;right:0;text-align:center;">
+      <span style="font-family:var(--font-serif);font-style:italic;font-size:var(--text-sm);color:rgba(42,30,16,0.4);">Graduating Class · Tendercare Comprehensive College · 2025</span>
+    </div>
+  </section>
+
+  <!-- Portrait grid -->
+  <section class="section" style="background:#EDE5D8;">
+    <div class="container">
+      <div class="ornament" data-animate="fade-up">
+        <div class="ornament__line"></div>
+        <div class="ornament__center">✦</div>
+        <div class="ornament__line"></div>
+      </div>
+      <span class="t-eyebrow" style="color:var(--color-wine);margin-bottom:var(--space-3);" data-animate="fade-up">The Class</span>
+      <h2 style="font-family:var(--font-serif);font-size:var(--text-3xl);font-weight:300;color:#2A1E10;margin-bottom:var(--space-10);" data-animate="fade-up">
+        Forty students.<br><em>Forty futures.</em>
+      </h2>
+
+      <!-- Portrait grid — flip cards -->
+      <div class="grid--portraits" data-stagger>
+
+        <!-- Student card template × 8 (replace with real students) -->
+        <div class="yearbook__card yearbook__card--flip yearbook__portrait-hover" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--1"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"The beginning of everything was here."</p>
+              <p class="yearbook__card-name">Student Name</p>
+              <p class="yearbook__card-ambition">Future: Medicine</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--2"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"I found my voice in these classrooms."</p>
+              <p class="yearbook__card-name">Student Name</p>
+              <p class="yearbook__card-ambition">Future: Law</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--3"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Every race I ran taught me something."</p>
+              <p class="yearbook__card-name">Student Name</p>
+              <p class="yearbook__card-ambition">Future: Engineering</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--4"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Tendercare gave me the full range."</p>
+              <p class="yearbook__card-name">Student Name</p>
+              <p class="yearbook__card-ambition">Future: Architecture</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--5"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"I leave ready for anything."</p>
+              <p class="yearbook__card-name">Student Name</p>
+              <p class="yearbook__card-ambition">Future: Finance</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--6"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Five years. A lifetime of memories."</p>
+              <p class="yearbook__card-name">Student Name</p>
+              <p class="yearbook__card-ambition">Future: Journalism</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--7"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"This place believed in me first."</p>
+              <p class="yearbook__card-name">Student Name</p>
+              <p class="yearbook__card-ambition">Future: Medicine</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--8"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"We were the standard."</p>
+              <p class="yearbook__card-name">Student Name</p>
+              <p class="yearbook__card-ambition">Future: Technology</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <p style="font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.3;text-align:center;margin-top:var(--space-6);letter-spacing:var(--tracking-wide);">Tap or click any portrait to reveal their message · Replace placeholders with real photos</p>
+
+      <div class="ornament" style="margin-top:var(--space-12);" data-animate="fade-up">
+        <div class="ornament__line"></div>
+        <div class="ornament__center">✦</div>
+        <div class="ornament__line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section style="padding:var(--space-20) var(--space-5);background:#E0D7C8;text-align:center;">
+    <div class="container container--md" data-animate="fade-up">
+      <p style="font-family:var(--font-serif);font-size:var(--text-3xl);font-weight:300;font-style:italic;color:#2A1E10;line-height:var(--leading-snug);margin-bottom:var(--space-8);">
+        Go well, Class of 2025.<br>
+        <span style="opacity:0.5;font-size:var(--text-xl);">The school watches with pride.</span>
+      </p>
+      <div class="yearbook__dedication-line" style="margin:0 auto var(--space-8);"></div>
+      <a href="awards.html" class="btn btn--wine">See the Academic Record</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__links">
+        <a href="index.html" class="site-footer__link">Home</a>
+        <a href="sports.html" class="site-footer__link">Sports</a>
+        <a href="awards.html" class="site-footer__link">Awards</a>
+        <a href="feed.html" class="site-footer__link">Feed</a>
+        <a href="about.html" class="site-footer__link">About</a>
+      </div>
+      <p class="site-footer__copy">© 2025 Tendercare Comprehensive College</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

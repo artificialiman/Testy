@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Feed — Tendercare Comprehensive College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tendercare.css">
+  <style>
+    body { background: #F5F2EC; font-family: var(--font-sans); }
+
+    /* Feed layout */
+    .feed-layout {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100svh;
+      background: #F5F2EC;
+      padding-bottom: 80px;
+    }
+
+    /* Sticky header */
+    .feed__header {
+      background: rgba(245,242,236,0.92);
+      backdrop-filter: blur(12px);
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: var(--z-raised);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Tomorrow banner */
+    .tomorrow-banner {
+      background: var(--color-lemon);
+      padding: var(--space-3) var(--space-5);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin: var(--space-3) var(--space-4);
+      border-radius: var(--radius-xl);
+    }
+    .tomorrow-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-ink);
+      animation: pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    /* Post cards */
+    .post-card {
+      background: white;
+      border-radius: 20px;
+      margin: var(--space-3) var(--space-4);
+      padding: var(--space-5);
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+      animation: slideInFromBottom 0.4s var(--ease-out) both;
+    }
+    .post-card--pinned {
+      border: 2px solid var(--color-lemon);
+      background: #FDFAE8;
+    }
+    .post-card--announcement {
+      border-left: 4px solid var(--color-purple);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+    .post-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+    }
+    .post-name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-ink);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .post-role {
+      font-size: var(--text-xs);
+      background: var(--color-purple-ghost);
+      color: var(--color-purple);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-weight: 500;
+    }
+    .post-time {
+      font-size: 11px;
+      color: var(--color-ash-dark);
+      margin-top: 2px;
+    }
+    .post-body {
+      font-size: var(--text-base);
+      line-height: 1.55;
+      color: var(--color-ink-soft);
+    }
+    .post-actions {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+      padding-top: var(--space-3);
+      border-top: 1px solid #f0ece4;
+    }
+    .post-action {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-ash-dark);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: var(--radius-md);
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+    }
+    .post-action:hover, .post-action.liked {
+      background: var(--color-purple-ghost);
+      color: var(--color-purple);
+    }
+
+    /* Tags */
+    .post-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-3);
+    }
+    .tag--sports { background: #FFF3C4; color: #8A5C00; }
+    .tag--academic { background: var(--color-purple-ghost); color: var(--color-purple); }
+    .tag--social { background: #FFE8E8; color: var(--color-wine); }
+    .tag--notice { background: #E8F8F0; color: #1A6640; }
+
+    /* Compose bar */
+    .compose-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: rgba(245,242,236,0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(0,0,0,0.07);
+      padding: var(--space-3) var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      z-index: var(--z-raised);
+    }
+    .compose-input {
+      flex: 1;
+      background: #EDE9E0;
+      border: none;
+      border-radius: var(--radius-full);
+      padding: 10px 16px;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      color: var(--color-ink);
+      outline: none;
+    }
+    .compose-input:focus {
+      background: var(--color-purple-ghost);
+      box-shadow: 0 0 0 2px var(--color-purple-light);
+    }
+    .compose-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--color-purple);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .compose-btn:hover { background: var(--color-purple-deep); transform: scale(1.05); }
+
+    /* Nav back link */
+    .feed-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      background: transparent;
+    }
+    .feed-nav__back {
+      font-size: var(--text-sm);
+      color: var(--color-purple);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+  </style>
+</head>
+<body class="page--feed">
+
+  <div class="page-transition page-transition--in"></div>
+
+  <!-- Feed nav -->
+  <div class="feed-layout">
+
+    <div class="feed__header">
+      <div>
+        <div style="font-family:var(--font-sans);font-size:var(--text-lg);font-weight:700;color:var(--color-ink);">TCC Feed</div>
+        <div style="font-size:11px;color:var(--color-ash-dark);margin-top:1px;">Tendercare Comprehensive College</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:var(--space-3);">
+        <a href="index.html" style="font-family:var(--font-sans);font-size:var(--text-xs);color:var(--color-purple);font-weight:500;letter-spacing:0.03em;">← Home</a>
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--color-lemon);animation:pulse 2s ease-in-out infinite;" title="Live"></div>
+      </div>
+    </div>
+
+    <!-- Tomorrow's schedule — pinned -->
+    <div class="tomorrow-banner">
+      <div class="tomorrow-pulse"></div>
+      <div>
+        <div style="font-size:var(--text-sm);font-weight:700;color:var(--color-ink);">Tomorrow's Schedule</div>
+        <div style="font-size:11px;color:rgba(26,16,32,0.6);margin-top:1px;">Assembly 7:45am · Period 1: 8:10am · Break: 10:30am</div>
+      </div>
+    </div>
+
+    <!-- Posts -->
+    <div class="feed__posts" style="padding-top:var(--space-2);">
+
+      <!-- Pinned announcement -->
+      <div class="post-card post-card--pinned" style="animation-delay:0.05s;">
+        <div class="post-header">
+          <div class="post-avatar" style="background:var(--color-purple);">VP</div>
+          <div>
+            <div class="post-name">
+              Vice Principal's Office
+              <span class="post-role">Admin</span>
+            </div>
+            <div class="post-time">Pinned · Today</div>
+          </div>
+        </div>
+        <span class="post-tag tag--notice">📌 Notice</span>
+        <p class="post-body">
+          <strong>Reminder:</strong> All SS3 students are to submit their clearance forms by end of day tomorrow. Collection is at the Admin office from 8am. No late submissions will be accepted.
+        </p>
+        <div class="post-actions">
+          <span class="post-action" onclick="toggleLike(this)">❤️ <span class="like-count">14</span></span>
+          <span class="post-action">💬 Noted</span>
+        </div>
+      </div>
+
+      <!-- Sports post -->
+      <div class="post-card" style="animation-delay:0.1s;">
+        <div class="post-header">
+          <div class="post-avatar" style="background:var(--color-lemon);color:var(--color-ink);">SC</div>
+          <div>
+            <div class="post-name">Sports Coordinator</div>
+            <div class="post-time">2 hours ago</div>
+          </div>
+        </div>
+        <span class="post-tag tag--sports">🏆 Sports</span>
+        <p class="post-body">
+          The 3rd Interhouse is now officially in the record books. What a day. Full results and photo gallery are now live — go check the Sports page and see yourselves in glory. Well done to every house. 🎉
+        </p>
+        <div class="post-actions">
+          <span class="post-action" onclick="toggleLike(this)">❤️ <span class="like-count">47</span></span>
+          <span class="post-action">💬 5 replies</span>
+          <span class="post-action" onclick="this.style.color='var(--color-purple)'">🔁 Share</span>
+        </div>
+      </div>
+
+      <!-- Student post -->
+      <div class="post-card" style="animation-delay:0.15s;">
+        <div class="post-header">
+          <div class="post-avatar" style="background:var(--color-wine);">T</div>
+          <div>
+            <div class="post-name">Temi Adeyemi <span class="post-role">SS3</span></div>
+            <div class="post-time">4 hours ago</div>
+          </div>
+        </div>
+        <span class="post-tag tag--social">💬 Social</span>
+        <p class="post-body">
+          The relay race today 😭😭 I cannot believe we came from behind like that. That last leg though. You know who you are. Greatest day in TCC history??
+        </p>
+        <div class="post-actions">
+          <span class="post-action" onclick="toggleLike(this)">❤️ <span class="like-count">33</span></span>
+          <span class="post-action">💬 8 replies</span>
+        </div>
+      </div>
+
+      <!-- Academic post -->
+      <div class="post-card post-card--announcement" style="animation-delay:0.2s;">
+        <div class="post-header">
+          <div class="post-avatar" style="background:var(--color-purple);">MA</div>
+          <div>
+            <div class="post-name">Mathematics Department</div>
+            <div class="post-time">Yesterday</div>
+          </div>
+        </div>
+        <span class="post-tag tag--academic">📐 Academic</span>
+        <p class="post-body">
+          Mathematics Olympiad team selections begin next Monday. Any JSS3 – SS2 student with interest in competing is encouraged to register at the Maths office. We're entering this one to win it.
+        </p>
+        <div class="post-actions">
+          <span class="post-action" onclick="toggleLike(this)">❤️ <span class="like-count">21</span></span>
+          <span class="post-action">💬 3 replies</span>
+        </div>
+      </div>
+
+      <!-- Student post 2 -->
+      <div class="post-card" style="animation-delay:0.25s;">
+        <div class="post-header">
+          <div class="post-avatar" style="background:#20A060;">K</div>
+          <div>
+            <div class="post-name">Kemi Okafor <span class="post-role">SS2</span></div>
+            <div class="post-time">Yesterday</div>
+          </div>
+        </div>
+        <p class="post-body">
+          Can the food tomorrow please not be rice again 🙏🙏 just saying. Asking for everyone in Block B.
+        </p>
+        <div class="post-actions">
+          <span class="post-action" onclick="toggleLike(this)">❤️ <span class="like-count">62</span></span>
+          <span class="post-action">💬 12 replies</span>
+        </div>
+      </div>
+
+      <!-- Notice post -->
+      <div class="post-card" style="animation-delay:0.3s;">
+        <div class="post-header">
+          <div class="post-avatar" style="background:var(--color-ink);">TCC</div>
+          <div>
+            <div class="post-name">
+              School Management
+              <span class="post-role">Official</span>
+            </div>
+            <div class="post-time">2 days ago</div>
+          </div>
+        </div>
+        <span class="post-tag tag--notice">📣 Notice</span>
+        <p class="post-body">
+          Following the incredible success of the 3rd Interhouse Sports, the school leadership wishes to formally commend every student, teacher, and parent who made it possible. We are proud of every single one of you. Tendercare continues to rise.
+        </p>
+        <div class="post-actions">
+          <span class="post-action" onclick="toggleLike(this)">❤️ <span class="like-count">89</span></span>
+          <span class="post-action">💬 Yes sir!</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Compose bar -->
+  <div class="compose-bar">
+    <div class="post-avatar" style="background:var(--color-ash);width:34px;height:34px;font-size:12px;">You</div>
+    <input class="compose-input" type="text" placeholder="What's on your mind?" />
+    <button class="compose-btn" onclick="this.style.transform='scale(0.9)';setTimeout(()=>this.style.transform='',200)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    function toggleLike(el) {
+      const count = el.querySelector('.like-count');
+      const isLiked = el.classList.toggle('liked');
+      if (count) {
+        count.textContent = isLiked
+          ? parseInt(count.textContent) + 1
+          : parseInt(count.textContent) - 1;
+      }
+    }
+  </script>
+</body>
+</html>

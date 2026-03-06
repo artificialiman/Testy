@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Tendercare Comprehensive College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tendercare.css">
+  <style>
+    /* Staff portrait placeholder */
+    .staff-ph {
+      width: 100%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: var(--text-2xl);
+      font-weight: 300;
+      font-style: italic;
+    }
+    .sph--1 { background: linear-gradient(160deg,#e8e0d4,#d8d0c4); color: rgba(42,30,16,0.2); }
+    .sph--2 { background: linear-gradient(160deg,#d8dce8,#c8ccd8); color: rgba(42,30,16,0.2); }
+    .sph--3 { background: linear-gradient(160deg,#e8d4d8,#d8c4c8); color: rgba(42,30,16,0.2); }
+    .sph--4 { background: linear-gradient(160deg,#d4e8d4,#c4d8c4); color: rgba(42,30,16,0.2); }
+    .sph--5 { background: linear-gradient(160deg,#e8e4d0,#d8d4c0); color: rgba(42,30,16,0.2); }
+    .sph--6 { background: linear-gradient(160deg,#d0d4e8,#c0c4d8); color: rgba(42,30,16,0.2); }
+
+    /* Timeline */
+    .history-line {
+      border-left: 2px solid var(--color-purple-light);
+      padding-left: var(--space-6);
+      margin-left: var(--space-4);
+    }
+    .history-event {
+      position: relative;
+      padding-bottom: var(--space-8);
+    }
+    .history-event::before {
+      content: '';
+      position: absolute;
+      left: calc(-1 * var(--space-6) - 5px);
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-purple);
+      border: 2px solid var(--color-cream-warm);
+    }
+    .history-year {
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      color: var(--color-purple);
+      margin-bottom: var(--space-2);
+    }
+    .history-text {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-loose);
+      opacity: 0.75;
+    }
+
+    /* Contact form */
+    .contact-field {
+      width: 100%;
+      background: var(--color-offwhite);
+      border: 1px solid var(--color-cream-deep);
+      padding: var(--space-4);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      color: var(--color-ink);
+      outline: none;
+      margin-bottom: var(--space-4);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .contact-field:focus {
+      border-color: var(--color-purple);
+      box-shadow: 0 0 0 3px var(--color-purple-ghost);
+    }
+    textarea.contact-field { resize: vertical; min-height: 120px; }
+
+    /* Footer */
+    .site-footer { background:var(--color-ink);color:var(--color-cream);padding:var(--space-16) var(--space-5) var(--space-8); }
+    .site-footer__grid { display:grid;grid-template-columns:1fr;gap:var(--space-10);padding-bottom:var(--space-10);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:var(--space-8); }
+    @media(min-width:768px){.site-footer__grid{grid-template-columns:2fr 1fr 1fr;}}
+    .site-footer__heading { font-family:var(--font-sans);font-size:var(--text-xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;opacity:0.4;margin-bottom:var(--space-5); }
+    .site-footer__link { display:block;font-family:var(--font-sans);font-size:var(--text-sm);opacity:0.6;margin-bottom:var(--space-3);transition:opacity 0.2s; }
+    .site-footer__link:hover { opacity:1; }
+    .site-footer__copy { font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.35; }
+    .site-footer__name { font-family:var(--font-serif);font-size:var(--text-3xl);font-weight:300;opacity:0.9;margin-bottom:var(--space-4);line-height:var(--leading-snug); }
+  </style>
+</head>
+<body class="page--about">
+
+  <div class="page-transition page-transition--in"></div>
+
+  <nav class="nav nav--transparent">
+    <a href="index.html" class="nav__logo">
+      <span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:500;color:var(--color-ink);letter-spacing:0.02em;">TCC</span>
+    </a>
+    <div class="nav__links">
+      <a href="index.html" class="nav__link">Home</a>
+      <a href="sports.html" class="nav__link">Sports</a>
+      <a href="yearbook.html" class="nav__link">Yearbook</a>
+      <a href="awards.html" class="nav__link">Awards</a>
+      <a href="feed.html" class="nav__link">Feed</a>
+      <a href="about.html" class="nav__link nav__link--active">About</a>
+    </div>
+    <button class="nav__toggle" aria-label="Menu">
+      <span class="nav__toggle-bar"></span>
+      <span class="nav__toggle-bar"></span>
+      <span class="nav__toggle-bar"></span>
+    </button>
+  </nav>
+
+  <div class="nav__drawer">
+    <a href="index.html" class="nav__drawer-link">Home</a>
+    <a href="sports.html" class="nav__drawer-link">Sports</a>
+    <a href="yearbook.html" class="nav__drawer-link">Yearbook</a>
+    <a href="awards.html" class="nav__drawer-link">Awards</a>
+    <a href="feed.html" class="nav__drawer-link">Feed</a>
+    <a href="about.html" class="nav__drawer-link">About</a>
+  </div>
+
+  <!-- Hero -->
+  <section style="padding:calc(var(--space-20) + 60px) var(--space-5) var(--space-20);background:var(--color-cream-warm);">
+    <div class="container">
+      <span class="t-eyebrow" style="animation:fadeIn 0.6s ease 0.1s both;">Our Story</span>
+      <h1 style="font-family:var(--font-serif);font-size:var(--text-4xl);font-weight:300;line-height:var(--leading-snug);max-width:20ch;animation:fadeUp 0.9s var(--ease-out) 0.2s both;">
+        Twenty-five years of<br>
+        <em style="color:var(--color-purple);">giving children<br>
+        the full range.</em>
+      </h1>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section style="background:var(--color-purple);padding:var(--space-16) var(--space-5);">
+    <div class="container container--lg">
+      <div style="display:grid;grid-template-columns:1fr;gap:var(--space-10);" class="grid--editorial">
+        <div data-animate="fade-up">
+          <span class="t-eyebrow" style="color:rgba(255,255,255,0.5);">Our Mission</span>
+          <p style="font-family:var(--font-serif);font-size:var(--text-2xl);font-weight:300;font-style:italic;color:var(--color-cream);line-height:var(--leading-snug);margin-top:var(--space-4);">
+            To develop every student — academically, athletically, creatively, and in character — so that they leave Tendercare bigger than when they arrived.
+          </p>
+        </div>
+        <div data-animate="fade-up">
+          <p style="font-family:var(--font-body);font-size:var(--text-base);color:rgba(248,244,236,0.65);line-height:var(--leading-loose);">
+            Tendercare Comprehensive College was founded on a single conviction: that a child's education should leave nothing on the table. Not academic potential. Not athletic ability. Not creative expression. Not moral formation.
+          </p>
+          <p style="font-family:var(--font-body);font-size:var(--text-base);color:rgba(248,244,236,0.65);line-height:var(--leading-loose);margin-top:var(--space-4);">
+            Twenty-five years later, that conviction has produced generations of graduates who carry something the world can feel.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- History timeline -->
+  <section class="section" style="background:var(--color-offwhite);" id="history">
+    <div class="container container--md">
+      <span class="t-eyebrow" data-animate="fade-up">25 Years</span>
+      <h2 style="font-family:var(--font-serif);font-size:var(--text-3xl);font-weight:300;margin-bottom:var(--space-12);" data-animate="fade-up">
+        How we got here.
+      </h2>
+
+      <div class="history-line" data-stagger>
+        <div class="history-event" data-animate="fade-up">
+          <div class="history-year">Founded · 2000</div>
+          <p class="history-text">Tendercare Comprehensive College opens its doors with a founding class and an unwavering belief in total education.</p>
+        </div>
+        <div class="history-event" data-animate="fade-up">
+          <div class="history-year">Early Growth · 2005</div>
+          <p class="history-text">Secondary division established. The school becomes all-through — serving students from primary through to final year.</p>
+        </div>
+        <div class="history-event" data-animate="fade-up">
+          <div class="history-year">Recognition · 2012</div>
+          <p class="history-text">First cohort of external competition entrants. Science fair, debate, and mathematics Olympiad become annual fixtures.</p>
+        </div>
+        <div class="history-event" data-animate="fade-up">
+          <div class="history-year">1st Interhouse · 2023</div>
+          <p class="history-text">The first Interhouse Sports Festival launches — an ambitious declaration of what Tendercare could do when it performed publicly.</p>
+        </div>
+        <div class="history-event" data-animate="fade-up">
+          <div class="history-year">3rd Interhouse · 2025</div>
+          <p class="history-text">The festival becomes a tradition. A proof. A statement of capacity sent to the world: if we can do this in sport, we can do it in anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Faculty -->
+  <section class="section" style="background:var(--color-cream-warm);" id="faculty">
+    <div class="container">
+      <span class="t-eyebrow" data-animate="fade-up">Leadership & Faculty</span>
+      <h2 style="font-family:var(--font-serif);font-size:var(--text-3xl);font-weight:300;margin-bottom:var(--space-10);" data-animate="fade-up">
+        The people who<br><em>make it possible.</em>
+      </h2>
+
+      <div class="grid grid--3" data-stagger>
+
+        <div class="faculty__card" data-animate="fade-up">
+          <div class="faculty__portrait" style="border-radius:var(--radius-md);overflow:hidden;">
+            <div class="staff-ph sph--1">Principal</div>
+          </div>
+          <div>
+            <h3 class="faculty__name">— Principal's Name —</h3>
+            <p class="faculty__role">Principal</p>
+            <p class="faculty__bio" style="margin-top:var(--space-3);">A founding vision-holder and the driving force behind Tendercare's conviction that no discipline is beyond reach.</p>
+          </div>
+        </div>
+
+        <div class="faculty__card" data-animate="fade-up">
+          <div class="faculty__portrait" style="border-radius:var(--radius-md);overflow:hidden;">
+            <div class="staff-ph sph--2">VP</div>
+          </div>
+          <div>
+            <h3 class="faculty__name">— Vice Principal —</h3>
+            <p class="faculty__role">Vice Principal, Academics</p>
+            <p class="faculty__bio" style="margin-top:var(--space-3);">Responsible for academic standards, staff development, and the culture of excellence that defines TCC's classrooms.</p>
+          </div>
+        </div>
+
+        <div class="faculty__card" data-animate="fade-up">
+          <div class="faculty__portrait" style="border-radius:var(--radius-md);overflow:hidden;">
+            <div class="staff-ph sph--3">SC</div>
+          </div>
+          <div>
+            <h3 class="faculty__name">— Sports Coordinator —</h3>
+            <p class="faculty__role">Sports & Co-curricular</p>
+            <p class="faculty__bio" style="margin-top:var(--space-3);">The architect of TCC's athletic programme and the force behind three consecutive Interhouse Sports Festivals.</p>
+          </div>
+        </div>
+
+        <div class="faculty__card" data-animate="fade-up">
+          <div class="faculty__portrait" style="border-radius:var(--radius-md);overflow:hidden;">
+            <div class="staff-ph sph--4">HD</div>
+          </div>
+          <div>
+            <h3 class="faculty__name">— Head of Sciences —</h3>
+            <p class="faculty__role">Sciences Department</p>
+            <p class="faculty__bio" style="margin-top:var(--space-3);">Leading a department that competes at external science fairs and sends students to national olympiads.</p>
+          </div>
+        </div>
+
+        <div class="faculty__card" data-animate="fade-up">
+          <div class="faculty__portrait" style="border-radius:var(--radius-md);overflow:hidden;">
+            <div class="staff-ph sph--5">MA</div>
+          </div>
+          <div>
+            <h3 class="faculty__name">— Head of Mathematics —</h3>
+            <p class="faculty__role">Mathematics Department</p>
+            <p class="faculty__bio" style="margin-top:var(--space-3);">Building problem-solvers, not just exam-passers. The Mathematics Olympiad team begins here.</p>
+          </div>
+        </div>
+
+        <div class="faculty__card" data-animate="fade-up">
+          <div class="faculty__portrait" style="border-radius:var(--radius-md);overflow:hidden;">
+            <div class="staff-ph sph--6">CA</div>
+          </div>
+          <div>
+            <h3 class="faculty__name">— Head of Arts —</h3>
+            <p class="faculty__role">Creative Arts & Drama</p>
+            <p class="faculty__bio" style="margin-top:var(--space-3);">Every school show, drama festival, and creative exhibition passes through this office. Art at TCC is serious.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <p style="font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.35;text-align:center;margin-top:var(--space-6);letter-spacing:var(--tracking-wide);">Replace with actual staff names, photos, and roles</p>
+    </div>
+  </section>
+
+  <!-- Admissions -->
+  <section style="background:var(--color-offwhite);padding:var(--space-20) var(--space-5);" id="admissions">
+    <div class="container container--md">
+      <span class="t-eyebrow" data-animate="fade-up">Admissions</span>
+      <h2 style="font-family:var(--font-serif);font-size:var(--text-3xl);font-weight:300;margin-bottom:var(--space-6);" data-animate="fade-up">
+        Is Tendercare<br>right for your child?
+      </h2>
+      <p style="font-family:var(--font-body);font-size:var(--text-base);line-height:var(--leading-loose);opacity:0.7;margin-bottom:var(--space-10);max-width:52ch;" data-animate="fade-up">
+        We accept students into Primary 1 through SS2 subject to availability. We look for students who are ready to be stretched — academically, athletically, creatively, or in any combination. There is a place here for the whole child.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);" data-animate="fade-up">
+        <a href="#contact" class="btn btn--primary">Enquire About Admissions</a>
+        <a href="awards.html" class="btn btn--ghost">See Our Academic Record</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section style="background:var(--color-cream-warm);padding:var(--space-20) var(--space-5);" id="contact">
+    <div class="container container--md">
+      <span class="t-eyebrow" data-animate="fade-up">Get in Touch</span>
+      <h2 style="font-family:var(--font-serif);font-size:var(--text-3xl);font-weight:300;margin-bottom:var(--space-10);" data-animate="fade-up">
+        We'd love to hear from you.
+      </h2>
+
+      <div data-animate="fade-up">
+        <input class="contact-field" type="text" placeholder="Your name" />
+        <input class="contact-field" type="email" placeholder="Email address" />
+        <input class="contact-field" type="text" placeholder="Subject (e.g. Admissions enquiry)" />
+        <textarea class="contact-field" placeholder="Your message..."></textarea>
+        <button class="btn btn--primary" style="width:100%;justify-content:center;" onclick="this.textContent='Message sent ✓';this.style.background='var(--color-purple-deep)';setTimeout(()=>{this.textContent='Send Message';this.style.background='';},3000)">
+          Send Message
+        </button>
+      </div>
+
+      <div style="margin-top:var(--space-12);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);" data-animate="fade-up">
+        <div>
+          <span class="t-eyebrow">Address</span>
+          <p style="font-family:var(--font-body);font-size:var(--text-sm);opacity:0.65;line-height:var(--leading-loose);">— School address —<br>Replace with actual location</p>
+        </div>
+        <div>
+          <span class="t-eyebrow">Contact</span>
+          <p style="font-family:var(--font-body);font-size:var(--text-sm);opacity:0.65;line-height:var(--leading-loose);">Phone: —<br>Email: —</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-footer__name">Tendercare<br>Comprehensive<br>College</p>
+          <p style="font-family:var(--font-body);font-style:italic;font-size:var(--text-sm);opacity:0.45;max-width:32ch;line-height:var(--leading-normal);">Where every child is given the full range of their potential.</p>
+        </div>
+        <div>
+          <p class="site-footer__heading">Pages</p>
+          <a href="index.html" class="site-footer__link">Home</a>
+          <a href="sports.html" class="site-footer__link">Sports Festival</a>
+          <a href="yearbook.html" class="site-footer__link">Yearbook</a>
+          <a href="awards.html" class="site-footer__link">Awards</a>
+          <a href="feed.html" class="site-footer__link">Student Feed</a>
+        </div>
+        <div>
+          <p class="site-footer__heading">School</p>
+          <a href="#contact" class="site-footer__link">Contact</a>
+          <a href="#admissions" class="site-footer__link">Admissions</a>
+          <a href="#history" class="site-footer__link">Our History</a>
+          <a href="#faculty" class="site-footer__link">Faculty</a>
+        </div>
+      </div>
+      <p class="site-footer__copy">© 2025 Tendercare Comprehensive College. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Awards — Tendercare Comprehensive College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tendercare.css">
+  <style>
+    body { background: var(--color-purple-deep); color: var(--color-cream); }
+
+    /* Awards gallery placeholder colors */
+    .gph--1 { background: linear-gradient(160deg,#2a1050,#4a2080); }
+    .gph--2 { background: linear-gradient(160deg,#103028,#204840); }
+    .gph--3 { background: linear-gradient(160deg,#301010,#502020); }
+    .gph--4 { background: linear-gradient(160deg,#101030,#202050); }
+    .gph--5 { background: linear-gradient(160deg,#182010,#283020); }
+    .gph--6 { background: linear-gradient(160deg,#201018,#382028); }
+    .gph--7 { background: linear-gradient(160deg,#102030,#204050); }
+    .gph--8 { background: linear-gradient(160deg,#281010,#482020); }
+
+    .gallery-ph {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-3);
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.25);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+
+    /* Honour roll table */
+    .honour-table { width: 100%; border-collapse: collapse; }
+    .honour-table th {
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      opacity: 0.4;
+      text-align: left;
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .honour-table td {
+      padding: var(--space-4);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      vertical-align: middle;
+    }
+    .honour-table tr:hover td { background: rgba(255,255,255,0.03); }
+    .honour-table .award-name {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: var(--text-base);
+      color: var(--color-cream);
+    }
+    .honour-table .award-student {
+      color: var(--color-lemon);
+    }
+    .honour-table .award-subject {
+      opacity: 0.5;
+    }
+
+    /* Stats bar */
+    .awards-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: var(--space-12) 0;
+    }
+    @media (min-width: 640px) {
+      .awards-stats { grid-template-columns: repeat(4, 1fr); }
+    }
+    .awards-stat {
+      background: var(--color-purple-deep);
+      padding: var(--space-8) var(--space-6);
+      text-align: center;
+    }
+
+    /* Footer */
+    .site-footer { background:rgba(0,0,0,0.3);color:var(--color-cream);padding:var(--space-10) var(--space-5) var(--space-8);border-top:1px solid rgba(255,255,255,0.06); }
+    .site-footer__copy { font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.25;margin-top:var(--space-8); }
+    .site-footer__links { display:flex;flex-wrap:wrap;gap:var(--space-6);margin-bottom:var(--space-4); }
+    .site-footer__link { font-family:var(--font-sans);font-size:var(--text-sm);opacity:0.4;transition:opacity 0.2s; }
+    .site-footer__link:hover { opacity:0.9; }
+  </style>
+</head>
+<body class="page--awards">
+
+  <div class="page-transition page-transition--in"></div>
+
+  <nav class="nav nav--transparent">
+    <a href="index.html" class="nav__logo">
+      <span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:500;color:white;letter-spacing:0.02em;">TCC</span>
+    </a>
+    <div class="nav__links">
+      <a href="index.html" class="nav__link" style="color:white;">Home</a>
+      <a href="sports.html" class="nav__link" style="color:white;">Sports</a>
+      <a href="yearbook.html" class="nav__link" style="color:white;">Yearbook</a>
+      <a href="awards.html" class="nav__link nav__link--active" style="color:white;">Awards</a>
+      <a href="feed.html" class="nav__link" style="color:white;">Feed</a>
+      <a href="about.html" class="nav__link" style="color:white;">About</a>
+    </div>
+    <button class="nav__toggle" style="color:white;" aria-label="Menu">
+      <span class="nav__toggle-bar" style="background:white;"></span>
+      <span class="nav__toggle-bar" style="background:white;"></span>
+      <span class="nav__toggle-bar" style="background:white;"></span>
+    </button>
+  </nav>
+
+  <div class="nav__drawer">
+    <a href="index.html" class="nav__drawer-link">Home</a>
+    <a href="sports.html" class="nav__drawer-link">Sports</a>
+    <a href="yearbook.html" class="nav__drawer-link">Yearbook</a>
+    <a href="awards.html" class="nav__drawer-link">Awards</a>
+    <a href="feed.html" class="nav__drawer-link">Feed</a>
+    <a href="about.html" class="nav__drawer-link">About</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="awards__hero">
+    <div class="container">
+      <span class="t-eyebrow" style="color:var(--color-lemon);animation:fadeIn 0.6s ease 0.1s both;">Academic Record · 2025</span>
+      <h1 class="awards__hero-title" style="animation:fadeUp 0.9s var(--ease-out) 0.3s both;">
+        The students<br>who <em>distinguished</em><br>themselves.
+      </h1>
+      <p style="font-family:var(--font-sans);font-size:var(--text-base);opacity:0.55;max-width:44ch;margin-top:var(--space-6);line-height:var(--leading-loose);animation:fadeUp 0.9s var(--ease-out) 0.5s both;">
+        Academic excellence. Competition victories. Creative achievement. A record of what this school produces when it commits fully to every discipline.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="awards-stats" data-stagger>
+    <div class="awards-stat" data-animate="scale-in">
+      <span class="awards__counter" data-count="12" data-suffix="">0</span>
+      <span class="t-stat__label">Subjects Excelled</span>
+    </div>
+    <div class="awards-stat" data-animate="scale-in">
+      <span class="awards__counter" data-count="25" data-suffix="+">0</span>
+      <span class="t-stat__label">Awards Given</span>
+    </div>
+    <div class="awards-stat" data-animate="scale-in">
+      <span class="awards__counter" data-count="5" data-suffix="">0</span>
+      <span class="t-stat__label">External Competitions</span>
+    </div>
+    <div class="awards-stat" data-animate="scale-in">
+      <span class="awards__counter" data-count="100" data-suffix="%">0</span>
+      <span class="t-stat__label">Pass Rate 2025</span>
+    </div>
+  </div>
+
+  <!-- Award cards -->
+  <section class="section" style="background:transparent;">
+    <div class="container">
+      <span class="t-eyebrow" style="color:rgba(255,255,255,0.4);margin-bottom:var(--space-8);display:block;" data-animate="fade-up">Distinctions</span>
+
+      <div class="grid grid--3" data-stagger>
+
+        <div class="awards__card" data-animate="fade-up">
+          <div class="awards__card-icon" style="background:var(--color-lemon);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1020" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <h3 class="awards__card-title">Best Overall Student</h3>
+          <p class="awards__card-recipient">— Student Name —</p>
+          <p class="awards__card-body">Consistently highest academic performance across all subjects throughout the academic year.</p>
+        </div>
+
+        <div class="awards__card" data-animate="fade-up">
+          <div class="awards__card-icon" style="background:var(--color-purple-light);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1020" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3 class="awards__card-title">Mathematics Excellence</h3>
+          <p class="awards__card-recipient">— Student Name —</p>
+          <p class="awards__card-body">Outstanding performance in Mathematics across internal assessments and external competitions.</p>
+        </div>
+
+        <div class="awards__card" data-animate="fade-up">
+          <div class="awards__card-icon" style="background:#00E8D4;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1020" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <h3 class="awards__card-title">Sciences Award</h3>
+          <p class="awards__card-recipient">— Student Name —</p>
+          <p class="awards__card-body">Excellence across Physics, Chemistry, and Biology — a complete scientific mind.</p>
+        </div>
+
+        <div class="awards__card" data-animate="fade-up">
+          <div class="awards__card-icon" style="background:var(--color-wine-light);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h3 class="awards__card-title">Creative Arts</h3>
+          <p class="awards__card-recipient">— Student Name —</p>
+          <p class="awards__card-body">Exceptional creative expression across drama, visual arts, and literary work.</p>
+        </div>
+
+        <div class="awards__card" data-animate="fade-up">
+          <div class="awards__card-icon" style="background:#F0A800;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1020" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3 class="awards__card-title">Leadership Award</h3>
+          <p class="awards__card-recipient">— Student Name —</p>
+          <p class="awards__card-body">For exceptional service to the school community and demonstrated leadership among peers.</p>
+        </div>
+
+        <div class="awards__card" data-animate="fade-up">
+          <div class="awards__card-icon" style="background:var(--color-lemon);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1020" stroke-width="2.5"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <h3 class="awards__card-title">Most Improved</h3>
+          <p class="awards__card-recipient">— Student Name —</p>
+          <p class="awards__card-body">The student who showed the greatest growth, determination, and commitment to progress.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Honour Roll table -->
+  <section class="section" style="background:rgba(0,0,0,0.2);">
+    <div class="container">
+      <span class="t-eyebrow" style="color:rgba(255,255,255,0.4);margin-bottom:var(--space-8);display:block;" data-animate="fade-up">Honour Roll 2025</span>
+
+      <div style="overflow-x:auto;" data-animate="fade-up">
+        <table class="honour-table">
+          <thead>
+            <tr>
+              <th>Award</th>
+              <th>Recipient</th>
+              <th>Subject / Area</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="award-name">Principal's Prize</td><td class="award-student">— Student Name —</td><td class="award-subject">All-round Excellence</td></tr>
+            <tr><td class="award-name">Mathematics Prize</td><td class="award-student">— Student Name —</td><td class="award-subject">Mathematics</td></tr>
+            <tr><td class="award-name">English Language Award</td><td class="award-student">— Student Name —</td><td class="award-subject">English Language</td></tr>
+            <tr><td class="award-name">Sciences Prize</td><td class="award-student">— Student Name —</td><td class="award-subject">Physics / Chemistry / Biology</td></tr>
+            <tr><td class="award-name">Social Studies Award</td><td class="award-student">— Student Name —</td><td class="award-subject">Social Studies</td></tr>
+            <tr><td class="award-name">Creative Arts Prize</td><td class="award-student">— Student Name —</td><td class="award-subject">Fine Art & Drama</td></tr>
+            <tr><td class="award-name">Debate Champion</td><td class="award-student">— Student Name —</td><td class="award-subject">Interschool Debate</td></tr>
+            <tr><td class="award-name">Athletic Champion</td><td class="award-student">— Student Name —</td><td class="award-subject">Track & Field</td></tr>
+            <tr><td class="award-name">Best in Class — SS3</td><td class="award-student">— Student Name —</td><td class="award-subject">SS3 Graduating Class</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.25;margin-top:var(--space-4);letter-spacing:var(--tracking-wide);">* Replace with actual award recipients</p>
+    </div>
+  </section>
+
+  <!-- Photo gallery -->
+  <section style="padding:var(--space-2);background:var(--color-purple-deep);">
+    <div style="padding:var(--space-5) var(--space-5) var(--space-3);">
+      <span class="t-eyebrow" style="color:rgba(255,255,255,0.4);" data-animate="fade-up">Moments of Achievement</span>
+    </div>
+    <div class="awards__gallery" data-stagger>
+      <div class="awards__gallery-item" data-animate="scale-in"><div class="gallery-ph gph--1">Prize giving day</div></div>
+      <div class="awards__gallery-item" data-animate="scale-in"><div class="gallery-ph gph--2">Science fair</div></div>
+      <div class="awards__gallery-item" data-animate="scale-in"><div class="gallery-ph gph--3">Debate team</div></div>
+      <div class="awards__gallery-item" data-animate="scale-in"><div class="gallery-ph gph--4">Mathematics</div></div>
+      <div class="awards__gallery-item" data-animate="scale-in"><div class="gallery-ph gph--5">Drama</div></div>
+      <div class="awards__gallery-item" data-animate="scale-in"><div class="gallery-ph gph--6">Graduation</div></div>
+      <div class="awards__gallery-item" data-animate="scale-in"><div class="gallery-ph gph--7">Assembly</div></div>
+      <div class="awards__gallery-item" data-animate="scale-in"><div class="gallery-ph gph--8">Ceremony</div></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__links">
+        <a href="index.html" class="site-footer__link">Home</a>
+        <a href="sports.html" class="site-footer__link">Sports</a>
+        <a href="yearbook.html" class="site-footer__link">Yearbook</a>
+        <a href="feed.html" class="site-footer__link">Feed</a>
+        <a href="about.html" class="site-footer__link">About</a>
+      </div>
+      <p class="site-footer__copy">© 2025 Tendercare Comprehensive College</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

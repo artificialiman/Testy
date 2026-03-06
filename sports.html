@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interhouse Sports 2025 — Tendercare Comprehensive College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tendercare.css">
+  <style>
+    /* ---- Cinematic gradient background stand-in ---- */
+    .sports-hero-gradient {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(91,45,142,0.5) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 20%, rgba(232,240,0,0.12) 0%, transparent 45%),
+        linear-gradient(160deg, #0a050f 0%, #1a1028 50%, #0d0818 100%);
+    }
+
+    /* Photo grid placeholders with atmospheric fills */
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-3);
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.4);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+    }
+
+    .ph--race    { background: linear-gradient(160deg,#1a1028,#2e1a4a); }
+    .ph--jump    { background: linear-gradient(160deg,#0d1a0a,#1a3010); }
+    .ph--crowd   { background: linear-gradient(160deg,#1a0d0a,#3a1810); }
+    .ph--victory { background: linear-gradient(160deg,#1a1a08,#3a3808); }
+    .ph--relay   { background: linear-gradient(160deg,#0a1020,#182040); }
+    .ph--face1   { background: linear-gradient(160deg,#1a0820,#2e1040); }
+    .ph--face2   { background: linear-gradient(160deg,#200a08,#401818); }
+    .ph--face3   { background: linear-gradient(160deg,#080a20,#101840); }
+
+    /* House color badges */
+    .house-badge {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: var(--space-2);
+      flex-shrink: 0;
+    }
+
+    /* Results board */
+    .results-board {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Event chips */
+    .event-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-full);
+      padding: var(--space-2) var(--space-4);
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.6);
+      letter-spacing: var(--tracking-wide);
+      white-space: nowrap;
+    }
+
+    .event-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-6);
+    }
+
+    /* Footer shared */
+    .site-footer { background:var(--color-ink);color:var(--color-cream);padding:var(--space-10) var(--space-5) var(--space-8); }
+    .site-footer__copy { font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.35;margin-top:var(--space-8); }
+    .site-footer__links { display:flex;flex-wrap:wrap;gap:var(--space-6);margin-bottom:var(--space-4); }
+    .site-footer__link { font-family:var(--font-sans);font-size:var(--text-sm);opacity:0.5;transition:opacity 0.2s; }
+    .site-footer__link:hover { opacity:1; }
+
+    /* Stat row */
+    .sports-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sports-stat {
+      padding: var(--space-8) var(--space-5);
+      border-right: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    .sports-stat:last-child { border-right: none; }
+    .sports-stat-n {
+      font-family: var(--font-display);
+      font-size: var(--text-4xl);
+      color: var(--color-lemon);
+      line-height: 1;
+      display: block;
+    }
+    .sports-stat-l {
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      opacity: 0.4;
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      display: block;
+      margin-top: var(--space-2);
+    }
+  </style>
+</head>
+<body class="page--event event--sports" style="background:var(--color-ink);color:var(--color-cream);">
+
+  <div class="page-transition page-transition--in"></div>
+
+  <!-- Nav -->
+  <nav class="nav nav--transparent">
+    <a href="index.html" class="nav__logo">
+      <span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:500;color:white;letter-spacing:0.02em;">TCC</span>
+    </a>
+    <div class="nav__links">
+      <a href="index.html" class="nav__link" style="color:white;">Home</a>
+      <a href="sports.html" class="nav__link nav__link--active" style="color:white;">Sports</a>
+      <a href="yearbook.html" class="nav__link" style="color:white;">Yearbook</a>
+      <a href="awards.html" class="nav__link" style="color:white;">Awards</a>
+      <a href="feed.html" class="nav__link" style="color:white;">Feed</a>
+      <a href="about.html" class="nav__link" style="color:white;">About</a>
+    </div>
+    <button class="nav__toggle" style="color:white;" aria-label="Menu">
+      <span class="nav__toggle-bar" style="background:white;"></span>
+      <span class="nav__toggle-bar" style="background:white;"></span>
+      <span class="nav__toggle-bar" style="background:white;"></span>
+    </button>
+  </nav>
+
+  <div class="nav__drawer">
+    <a href="index.html" class="nav__drawer-link">Home</a>
+    <a href="sports.html" class="nav__drawer-link">Sports</a>
+    <a href="yearbook.html" class="nav__drawer-link">Yearbook</a>
+    <a href="awards.html" class="nav__drawer-link">Awards</a>
+    <a href="feed.html" class="nav__drawer-link">Feed</a>
+    <a href="about.html" class="nav__drawer-link">About</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="event__hero" style="min-height:100svh;">
+    <div class="event__hero-bg">
+      <div class="sports-hero-gradient"></div>
+      <!-- Grain overlay -->
+      <div style="position:absolute;inset:0;opacity:0.04;background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E');"></div>
+    </div>
+
+    <div class="event__hero-content container">
+      <div class="event__badge" style="animation:fadeIn 0.5s ease 0.2s both;">
+        <span>●</span> 3rd Edition · 2025
+      </div>
+      <h1 class="event__title" style="animation:fadeUp 0.9s var(--ease-out) 0.3s both;">
+        Inter<span class="event__title-accent">house</span><br>Sports
+      </h1>
+      <p class="event__subtitle" style="animation:fadeUp 0.9s var(--ease-out) 0.5s both;">
+        A festival of athleticism. Twenty-five years in the making. One afternoon that showed the world what Tendercare is capable of.
+      </p>
+      <div class="event__meta" style="animation:fadeUp 0.8s var(--ease-out) 0.7s both;">
+        <span class="event__meta-item">Tendercare Sports Ground</span>
+        <span class="event__meta-item">2025</span>
+        <span class="event__meta-item">All Houses Competed</span>
+      </div>
+
+      <div class="event-chips" style="animation:fadeUp 0.8s var(--ease-out) 0.85s both;">
+        <span class="event-chip">100m Sprint</span>
+        <span class="event-chip">400m Relay</span>
+        <span class="event-chip">Long Jump</span>
+        <span class="event-chip">High Jump</span>
+        <span class="event-chip">Shot Put</span>
+        <span class="event-chip">Tug of War</span>
+        <span class="event-chip">Javelin</span>
+        <span class="event-chip">4×100m</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="sports-stats" data-stagger>
+    <div class="sports-stat" data-animate="scale-in">
+      <span class="sports-stat-n" data-count="4">0</span>
+      <span class="sports-stat-l">Houses</span>
+    </div>
+    <div class="sports-stat" data-animate="scale-in">
+      <span class="sports-stat-n" data-count="18">0</span>
+      <span class="sports-stat-l">Events</span>
+    </div>
+    <div class="sports-stat" data-animate="scale-in">
+      <span class="sports-stat-n" data-count="3">0</span>
+      <span class="sports-stat-l">Years Running</span>
+    </div>
+  </div>
+
+  <!-- Photo gallery -->
+  <section style="padding:var(--space-2);background:var(--color-ink);">
+    <div class="grid--event-photos" style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:var(--space-2);">
+
+      <div class="event__photo" style="grid-column:1/-1;aspect-ratio:16/7;">
+        <div class="photo-placeholder ph--race">Opening race · 100m</div>
+        <div class="event__photo-caption">The starting gun — opening race of the 3rd Interhouse</div>
+      </div>
+
+      <div class="event__photo" style="aspect-ratio:1;">
+        <div class="photo-placeholder ph--jump">Long jump</div>
+        <div class="event__photo-caption">Long jump finals</div>
+      </div>
+
+      <div class="event__photo" style="aspect-ratio:1;">
+        <div class="photo-placeholder ph--crowd">Crowd</div>
+        <div class="event__photo-caption">The stands erupt</div>
+      </div>
+
+      <div class="event__photo" style="aspect-ratio:4/3;">
+        <div class="photo-placeholder ph--relay">Relay</div>
+        <div class="event__photo-caption">4×100m relay baton exchange</div>
+      </div>
+
+      <div class="event__photo" style="aspect-ratio:4/3;">
+        <div class="photo-placeholder ph--victory">Victory</div>
+        <div class="event__photo-caption">Winning moment</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Narrative -->
+  <section class="event__narrative">
+    <div class="container">
+      <div class="grid--editorial" style="display:grid;grid-template-columns:1fr;gap:var(--space-10);">
+        <div data-animate="fade-up">
+          <p class="event__narrative-pull">
+            "If we can run a sports festival like this —<br>
+            we can compete in anything."
+          </p>
+        </div>
+        <div data-animate="fade-up">
+          <p style="font-family:var(--font-sans);font-size:var(--text-base);opacity:0.65;line-height:var(--leading-loose);">
+            The 3rd Interhouse Sports was not just a competition. It was a declaration. Four houses, hundreds of students, and an entire community showing up with full ambition for every single event on the programme.
+          </p>
+          <p style="font-family:var(--font-sans);font-size:var(--text-base);opacity:0.65;line-height:var(--leading-loose);margin-top:var(--space-4);">
+            This is what Tendercare looks like when it performs publicly. The same energy — the same organisation, the same will to show up completely — goes into every subject, every discipline, every competition we enter.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reactions montage -->
+  <section style="padding:var(--space-2) var(--space-2) 0;background:var(--color-ink);">
+    <div style="padding:var(--space-5) var(--space-5) var(--space-3);">
+      <span class="t-eyebrow" style="color:rgba(255,255,255,0.4);">The Faces of the Day</span>
+    </div>
+    <div class="sports__reactions">
+      <div class="sports__reaction"><div class="photo-placeholder ph--face1" style="aspect-ratio:1;"></div></div>
+      <div class="sports__reaction"><div class="photo-placeholder ph--face2" style="aspect-ratio:1;"></div></div>
+      <div class="sports__reaction"><div class="photo-placeholder ph--face3" style="aspect-ratio:1;"></div></div>
+      <div class="sports__reaction"><div class="photo-placeholder ph--jump" style="aspect-ratio:1;"></div></div>
+      <div class="sports__reaction"><div class="photo-placeholder ph--victory" style="aspect-ratio:1;"></div></div>
+      <div class="sports__reaction"><div class="photo-placeholder ph--relay" style="aspect-ratio:1;"></div></div>
+    </div>
+  </section>
+
+  <!-- House results -->
+  <section style="padding:var(--space-12) 0;background:var(--color-ink);">
+    <div class="container">
+      <span class="t-eyebrow" style="color:rgba(255,255,255,0.4);margin-bottom:var(--space-8);display:block;" data-animate="fade-up">Final Standings</span>
+
+      <div class="results-board" data-animate="fade-up">
+        <div class="sports__house-row">
+          <span class="sports__house-rank sports__house-rank--1">01</span>
+          <div style="display:flex;align-items:center;flex:1;gap:var(--space-3);">
+            <span class="house-badge" style="background:var(--color-lemon);"></span>
+            <span class="sports__house-name" style="color:var(--color-lemon);">— Your House Name —</span>
+          </div>
+          <span class="sports__house-points">Champions</span>
+        </div>
+        <div class="sports__house-row">
+          <span class="sports__house-rank sports__house-rank--2">02</span>
+          <div style="display:flex;align-items:center;flex:1;gap:var(--space-3);">
+            <span class="house-badge" style="background:var(--color-ash-light);"></span>
+            <span class="sports__house-name">— Your House Name —</span>
+          </div>
+          <span class="sports__house-points">2nd Place</span>
+        </div>
+        <div class="sports__house-row">
+          <span class="sports__house-rank sports__house-rank--3">03</span>
+          <div style="display:flex;align-items:center;flex:1;gap:var(--space-3);">
+            <span class="house-badge" style="background:#CD7F32;"></span>
+            <span class="sports__house-name">— Your House Name —</span>
+          </div>
+          <span class="sports__house-points">3rd Place</span>
+        </div>
+        <div class="sports__house-row">
+          <span class="sports__house-rank">04</span>
+          <div style="display:flex;align-items:center;flex:1;gap:var(--space-3);">
+            <span class="house-badge" style="background:var(--color-wine);"></span>
+            <span class="sports__house-name">— Your House Name —</span>
+          </div>
+          <span class="sports__house-points">4th Place</span>
+        </div>
+      </div>
+
+      <p style="font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.3;margin-top:var(--space-4);letter-spacing:var(--tracking-wide);">* Replace house names and colours with your actual data</p>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section style="padding:var(--space-16) 0;background:rgba(255,255,255,0.02);border-top:1px solid rgba(255,255,255,0.04);">
+    <div class="container">
+      <span class="t-eyebrow" style="color:rgba(255,255,255,0.4);margin-bottom:var(--space-10);display:block;" data-animate="fade-up">Day's Programme</span>
+      <div class="event__timeline" data-stagger>
+        <div class="event__timeline-item" data-animate="fade-up">
+          <div class="event__timeline-label">Morning</div>
+          <div class="event__timeline-title">Opening Ceremony</div>
+          <div class="event__timeline-body">March-past, anthem, declaration of games open.</div>
+        </div>
+        <div class="event__timeline-item" data-animate="fade-up">
+          <div class="event__timeline-label">Field Events</div>
+          <div class="event__timeline-title">Long Jump · High Jump · Shot Put · Javelin</div>
+          <div class="event__timeline-body">Simultaneous field events across all four houses.</div>
+        </div>
+        <div class="event__timeline-item" data-animate="fade-up">
+          <div class="event__timeline-label">Track</div>
+          <div class="event__timeline-title">100m · 200m · 400m Heats</div>
+          <div class="event__timeline-body">The crowd finds its voice. The fastest students emerge.</div>
+        </div>
+        <div class="event__timeline-item" data-animate="fade-up">
+          <div class="event__timeline-label">Finals</div>
+          <div class="event__timeline-title">4×100m Relay · Tug of War</div>
+          <div class="event__timeline-body">The events that decide everything. Every house at full capacity.</div>
+        </div>
+        <div class="event__timeline-item" data-animate="fade-up">
+          <div class="event__timeline-label">Closing</div>
+          <div class="event__timeline-title">Awards & Championship Declaration</div>
+          <div class="event__timeline-body">The 3rd Interhouse champion is crowned.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Next event teaser -->
+  <section style="padding:var(--space-16) var(--space-5);background:var(--color-purple-deep);text-align:center;">
+    <div class="container container--md" data-animate="fade-up">
+      <span class="t-eyebrow" style="color:var(--color-lemon);display:flex;justify-content:center;">What's Next</span>
+      <h2 style="font-family:var(--font-display);font-size:var(--text-4xl);color:white;letter-spacing:var(--tracking-wide);margin-bottom:var(--space-4);">MATHEMATICS OLYMPIAD</h2>
+      <p style="font-family:var(--font-sans);font-size:var(--text-sm);opacity:0.5;margin-bottom:var(--space-8);">Coming soon — another discipline. Same ambition.</p>
+      <a href="index.html" class="btn btn--accent">Back to Home</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__links">
+        <a href="index.html" class="site-footer__link">Home</a>
+        <a href="yearbook.html" class="site-footer__link">Yearbook</a>
+        <a href="awards.html" class="site-footer__link">Awards</a>
+        <a href="feed.html" class="site-footer__link">Feed</a>
+        <a href="about.html" class="site-footer__link">About</a>
+      </div>
+      <p class="site-footer__copy">© 2025 Tendercare Comprehensive College</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
