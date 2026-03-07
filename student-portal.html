@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal — Tendercare Comprehensive College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tendercare.css">
+  <style>
+    body { background: var(--color-offwhite); font-family: var(--font-sans); color: var(--color-ink); }
+
+    /* ---- Hero ---- */
+    .portal-hero {
+      background: var(--color-purple-deep);
+      color: white;
+      padding: calc(var(--space-20) + 60px) var(--space-5) var(--space-20);
+      position: relative; overflow: hidden;
+    }
+    .portal-hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 85% 40%, rgba(232,240,0,0.07) 0%, transparent 55%),
+                  radial-gradient(ellipse at 15% 70%, rgba(91,45,142,0.5) 0%, transparent 50%);
+    }
+
+    /* ---- Search card ---- */
+    .search-card {
+      background: white; border-radius: var(--radius-xl);
+      padding: var(--space-8); box-shadow: var(--shadow-xl);
+      max-width: 540px; margin: calc(-1 * var(--space-12)) auto 0;
+      position: relative; z-index: 2;
+    }
+    .search-field {
+      width:100%; border:1.5px solid var(--color-cream-deep); border-radius:var(--radius-md);
+      padding:var(--space-4) var(--space-5); font-family:var(--font-sans);
+      font-size:var(--text-base); color:var(--color-ink); outline:none;
+      background:var(--color-offwhite); transition:border-color .2s, box-shadow .2s;
+    }
+    .search-field:focus { border-color:var(--color-purple); background:white; box-shadow:0 0 0 3px var(--color-purple-ghost); }
+
+    /* ---- Profile card ---- */
+    .profile-card {
+      background:white; border-radius:var(--radius-xl); overflow:hidden;
+      box-shadow:var(--shadow-lg); max-width:720px; margin:var(--space-8) auto;
+      animation:fadeUp .5s var(--ease-out) both;
+    }
+    .profile-header {
+      background:var(--color-purple); color:white;
+      padding:var(--space-8); display:flex; gap:var(--space-6);
+      align-items:flex-start; flex-wrap:wrap;
+    }
+    .profile-avatar {
+      width:72px; height:72px; border-radius:50%;
+      background:rgba(255,255,255,0.15); border:2px solid rgba(255,255,255,0.3);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--font-serif); font-size:var(--text-2xl); font-weight:300;
+      flex-shrink:0; color:white;
+    }
+    .profile-name {
+      font-family:var(--font-serif); font-size:var(--text-2xl); font-weight:300; line-height:1.2;
+    }
+    .profile-meta { font-size:var(--text-sm); opacity:.6; margin-top:var(--space-2); }
+    .profile-id {
+      font-family:var(--font-sans); font-size:var(--text-xs); letter-spacing:var(--tracking-widest);
+      background:rgba(255,255,255,0.12); padding:var(--space-1) var(--space-3);
+      border-radius:var(--radius-full); margin-top:var(--space-3); display:inline-block;
+    }
+
+    /* Summary row */
+    .profile-summary {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      border-bottom:1px solid var(--color-cream-deep);
+    }
+    .summary-cell {
+      padding:var(--space-5) var(--space-4); text-align:center;
+      border-right:1px solid var(--color-cream-deep);
+    }
+    .summary-cell:last-child { border-right:none; }
+    .summary-num {
+      font-family:var(--font-display); font-size:var(--text-4xl); line-height:1;
+      display:block;
+    }
+    .summary-label {
+      font-size:var(--text-xs); letter-spacing:var(--tracking-widest);
+      text-transform:uppercase; opacity:.5; margin-top:var(--space-2); display:block;
+    }
+
+    /* Subject table */
+    .subject-table { width:100%; border-collapse:collapse; }
+    .subject-table th {
+      font-size:var(--text-xs); letter-spacing:var(--tracking-widest);
+      text-transform:uppercase; color:var(--color-ash-dark); background:var(--color-offwhite);
+      padding:var(--space-3) var(--space-5); text-align:left;
+      border-bottom:1px solid var(--color-cream-deep);
+    }
+    .subject-table td {
+      padding:var(--space-4) var(--space-5); border-bottom:1px solid #f5f2ec;
+      font-size:var(--text-sm); vertical-align:middle;
+    }
+    .subject-table tr:last-child td { border-bottom:none; }
+    .subject-table tr:hover td { background:var(--color-cream); }
+    .subj-name { font-weight:500; }
+    .score-num { font-family:var(--font-display); font-size:var(--text-2xl); line-height:1; }
+    .grade-pill {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:30px; height:30px; border-radius:50%;
+      font-size:var(--text-sm); font-weight:700;
+    }
+    .g-A { background:#e8f8e8; color:#1a6640; }
+    .g-B { background:var(--color-purple-ghost); color:var(--color-purple); }
+    .g-C { background:#fff3c4; color:#8a5c00; }
+    .g-D { background:#ffe8d0; color:#a05000; }
+    .g-E { background:#ffe8e8; color:var(--color-wine); }
+    .g-F { background:#fee; color:#c0392b; }
+    .g-- { background:var(--color-cream-deep); color:var(--color-ash-dark); }
+
+    .bar-wrap { width:70px; height:6px; background:var(--color-cream-deep); border-radius:3px; overflow:hidden; }
+    .bar { height:100%; border-radius:3px; transition:width .8s var(--ease-out); }
+    .pending-pill {
+      font-size:10px; letter-spacing:.05em; text-transform:uppercase;
+      font-weight:600; color:var(--color-ash-dark);
+      background:var(--color-cream-deep); padding:2px 8px; border-radius:var(--radius-full);
+    }
+
+    /* Pagination */
+    .pagination {
+      display:flex; align-items:center; justify-content:center;
+      gap:var(--space-2); padding:var(--space-8) 0;
+    }
+    .page-btn {
+      width:36px; height:36px; border-radius:50%; border:1.5px solid var(--color-cream-deep);
+      display:flex; align-items:center; justify-content:center; cursor:pointer;
+      font-family:var(--font-sans); font-size:var(--text-sm); font-weight:500;
+      transition:all .15s; background:white; color:var(--color-ink);
+    }
+    .page-btn:hover { border-color:var(--color-purple); color:var(--color-purple); }
+    .page-btn.active { background:var(--color-purple); border-color:var(--color-purple); color:white; }
+    .page-btn:disabled { opacity:.3; cursor:default; }
+
+    /* Comments / teacher remarks */
+    .remarks-section { padding:var(--space-6) var(--space-6) var(--space-8); }
+    .remark-box {
+      background:var(--color-cream); border-radius:var(--radius-md);
+      padding:var(--space-4) var(--space-5); margin-bottom:var(--space-3);
+    }
+    .remark-label {
+      font-size:var(--text-xs); letter-spacing:var(--tracking-widest);
+      text-transform:uppercase; color:var(--color-ash-dark); margin-bottom:var(--space-2);
+    }
+    .remark-text { font-family:var(--font-serif); font-style:italic; font-size:var(--text-base); line-height:var(--leading-normal); }
+
+    /* States */
+    .state-empty { text-align:center; padding:var(--space-20) var(--space-5); }
+    .state-nomatch { text-align:center; padding:var(--space-12) var(--space-5); }
+
+    /* Print button */
+    .print-btn {
+      display:inline-flex; align-items:center; gap:var(--space-2);
+      font-size:var(--text-xs); letter-spacing:var(--tracking-widest);
+      text-transform:uppercase; font-weight:600;
+      color:var(--color-ash-dark); cursor:pointer;
+      padding:var(--space-2) var(--space-4);
+      border:1px solid var(--color-cream-deep); border-radius:var(--radius-full);
+      transition:all .15s; background:white;
+    }
+    .print-btn:hover { border-color:var(--color-purple); color:var(--color-purple); }
+
+    @media print {
+      nav, .search-card, .pagination, .print-btn, .portal-hero { display:none !important; }
+      .profile-card { box-shadow:none; margin:0; }
+    }
+
+    /* Footer */
+    .site-footer { background:var(--color-ink);color:var(--color-cream);padding:var(--space-10) var(--space-5) var(--space-8); }
+    .site-footer__copy { font-family:var(--font-sans);font-size:var(--text-xs);opacity:.35;margin-top:var(--space-8); }
+    .site-footer__links { display:flex;flex-wrap:wrap;gap:var(--space-6);margin-bottom:var(--space-4); }
+    .site-footer__link { font-family:var(--font-sans);font-size:var(--text-sm);opacity:.5;transition:opacity .2s; }
+    .site-footer__link:hover { opacity:1; }
+  </style>
+</head>
+<body>
+<div class="page-transition page-transition--in"></div>
+
+<!-- Nav -->
+<nav class="nav nav--transparent">
+  <a href="index.html"><span style="font-family:var(--font-serif);font-size:1.1rem;font-weight:500;color:white;letter-spacing:.02em;">TCC</span></a>
+  <div class="nav__links">
+    <a href="index.html" class="nav__link" style="color:white;">Home</a>
+    <a href="results.html" class="nav__link" style="color:white;">Results</a>
+    <a href="student-portal.html" class="nav__link nav__link--active" style="color:white;">Student Portal</a>
+    <a href="teacher-dashboard.html" class="nav__link" style="color:white;">Staff</a>
+    <a href="feed.html" class="nav__link" style="color:white;">Feed</a>
+  </div>
+  <button class="nav__toggle" style="color:white;" aria-label="Menu">
+    <span class="nav__toggle-bar" style="background:white;"></span>
+    <span class="nav__toggle-bar" style="background:white;"></span>
+    <span class="nav__toggle-bar" style="background:white;"></span>
+  </button>
+</nav>
+<div class="nav__drawer">
+  <a href="index.html" class="nav__drawer-link">Home</a>
+  <a href="results.html" class="nav__drawer-link">Results</a>
+  <a href="student-portal.html" class="nav__drawer-link">Student Portal</a>
+  <a href="teacher-dashboard.html" class="nav__drawer-link">Staff Dashboard</a>
+  <a href="feed.html" class="nav__drawer-link">Feed</a>
+</div>
+
+<!-- Hero -->
+<section class="portal-hero">
+  <div class="container container--md" style="position:relative;z-index:1;">
+    <span style="font-family:var(--font-sans);font-size:var(--text-xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--color-lemon);opacity:.8;animation:fadeIn .5s ease .1s both;display:block;margin-bottom:var(--space-4);">Student Portal · Second Term 2024/2025</span>
+    <h1 style="font-family:var(--font-serif);font-size:var(--text-4xl);font-weight:300;line-height:var(--leading-snug);animation:fadeUp .8s var(--ease-out) .2s both;">
+      Your results.<br><em style="color:var(--color-lemon);">Your record.</em>
+    </h1>
+    <p style="font-size:var(--text-sm);opacity:.5;margin-top:var(--space-4);animation:fadeUp .8s var(--ease-out) .35s both;">
+      Enter your name or student ID to view your full term report.
+    </p>
+  </div>
+</section>
+
+<!-- Search -->
+<div class="container" style="padding-top:0;padding-bottom:var(--space-8);">
+  <div class="search-card">
+    <p style="font-size:var(--text-xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--color-ash-dark);margin-bottom:var(--space-4);">Find Your Report</p>
+    <input class="search-field" id="searchInput" type="text" placeholder="e.g. Adebayo Dorcas  or  TCC3A001" autocomplete="off" />
+    <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);">
+      <button class="btn btn--primary" style="flex:1;justify-content:center;" onclick="doSearch()">View My Results</button>
+      <button class="btn btn--ghost" style="padding:var(--space-4);" onclick="clearAll()" title="Clear">✕</button>
+    </div>
+    <!-- Quick class browse -->
+    <div style="margin-top:var(--space-5);padding-top:var(--space-5);border-top:1px solid var(--color-cream-deep);">
+      <p style="font-size:var(--text-xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--color-ash-dark);margin-bottom:var(--space-3);">Browse by Class</p>
+      <div style="display:flex;gap:var(--space-3);">
+        <button class="btn btn--ghost" style="flex:1;justify-content:center;font-size:var(--text-sm);" onclick="browseClass('JSS3A')">JSS3A <span style="opacity:.5;font-size:11px;margin-left:4px;">37 students</span></button>
+        <button class="btn btn--ghost" style="flex:1;justify-content:center;font-size:var(--text-sm);" onclick="browseClass('JSS3B')">JSS3B <span style="opacity:.5;font-size:11px;margin-left:4px;">31 students</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Output -->
+<div class="container" id="outputArea" style="padding-bottom:var(--space-16);">
+  <div class="state-empty" id="emptyState">
+    <div style="font-size:3rem;margin-bottom:var(--space-4);">🎓</div>
+    <p style="font-size:var(--text-sm);opacity:.5;">Enter your name or ID above to see your Second Term report.</p>
+  </div>
+  <div class="state-nomatch" id="noMatchState" style="display:none;">
+    <div style="font-size:2.5rem;margin-bottom:var(--space-4);">🔍</div>
+    <p style="font-weight:600;margin-bottom:var(--space-2);">No student found</p>
+    <p style="font-size:var(--text-sm);opacity:.5;">Check the spelling of your name, or try your student ID (e.g. TCC3A001).</p>
+  </div>
+
+  <!-- Class browse list (paginated) -->
+  <div id="classList" style="display:none;max-width:720px;margin:0 auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-5);">
+      <div>
+        <span id="classListTitle" style="font-family:var(--font-serif);font-size:var(--text-2xl);font-weight:300;"></span>
+        <span id="classListCount" style="font-size:var(--text-sm);opacity:.4;margin-left:var(--space-3);"></span>
+      </div>
+      <button onclick="clearAll()" style="font-size:var(--text-sm);color:var(--color-purple);cursor:pointer;background:none;border:none;">← Back</button>
+    </div>
+    <div id="classListGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);"></div>
+    <div class="pagination" id="classListPagination"></div>
+  </div>
+
+  <!-- Profile output -->
+  <div id="profileOutput"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__links">
+      <a href="index.html" class="site-footer__link">Home</a>
+      <a href="results.html" class="site-footer__link">Results</a>
+      <a href="feed.html" class="site-footer__link">Feed</a>
+      <a href="about.html" class="site-footer__link">About</a>
+    </div>
+    <p class="site-footer__copy">© 2025 Tendercare Comprehensive College · Second Term 2024/2025</p>
+  </div>
+</footer>
+
+<script src="js/tcc-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+/* ============================================================
+   STUDENT PORTAL
+   - Self-lookup by name or ID
+   - Class browse with pagination (10 per page)
+   - Full paginated subject report (5 subjects per page)
+   - Print-ready layout
+
+   SUPABASE UPGRADE:
+   Replace TCC.loadScores(studentId) with:
+     const { data } = await window.db.from('tcc_results')
+       .select('subjects').eq('student_id', studentId).single();
+     return data?.subjects || {};
+   Everything else stays the same.
+   ============================================================ */
+
+const PAGE_SIZE_CLASS   = 10;
+const PAGE_SIZE_SUBJECTS = 5; // subjects per page in report
+let currentClassBrowse  = null;
+let currentClassPage    = 1;
+let currentSubjectPage  = 1;
+let currentReport       = null;
+
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  const matches = TCC.findStudent(q);
+  hide('emptyState'); hide('noMatchState'); hide('classList'); hide('profileOutput');
+  if (!matches.length) { show('noMatchState'); return; }
+  if (matches.length === 1) {
+    renderProfile(matches[0]);
+  } else {
+    renderMultipleResults(matches);
+  }
+}
+
+function clearAll() {
+  document.getElementById('searchInput').value = '';
+  hide('profileOutput'); hide('classList'); hide('noMatchState');
+  show('emptyState');
+  currentClassBrowse = null; currentReport = null;
+}
+
+/* ---- Class browse ---- */
+function browseClass(className) {
+  currentClassBrowse = className;
+  currentClassPage = 1;
+  hide('emptyState'); hide('noMatchState'); hide('profileOutput');
+  show('classList');
+  document.getElementById('classListTitle').textContent = className;
+  renderClassList();
+}
+
+function renderClassList() {
+  const students = TCC.students[currentClassBrowse];
+  const total = students.length;
+  const totalPages = Math.ceil(total / PAGE_SIZE_CLASS);
+  const start = (currentClassPage - 1) * PAGE_SIZE_CLASS;
+  const page  = students.slice(start, start + PAGE_SIZE_CLASS);
+
+  document.getElementById('classListCount').textContent = `${total} students`;
+
+  document.getElementById('classListGrid').innerHTML = page.map(s => {
+    const report = TCC.computeReport(s.id);
+    const avgColor = report.average >= 65 ? 'var(--color-purple)' : report.average >= 45 ? '#8a5c00' : '#c0392b';
+    const initials = s.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    return `
+      <div onclick="renderProfile(TCC.allStudents().find(x=>x.id==='${s.id}'))"
+           style="background:white;border-radius:var(--radius-lg);padding:var(--space-4);
+                  display:flex;align-items:center;gap:var(--space-3);cursor:pointer;
+                  border:1.5px solid var(--color-cream-deep);transition:all .15s;"
+           onmouseover="this.style.borderColor='var(--color-purple)'"
+           onmouseout="this.style.borderColor='var(--color-cream-deep)'">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--color-purple);
+                    display:flex;align-items:center;justify-content:center;
+                    color:white;font-size:13px;font-weight:700;flex-shrink:0;">${initials}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;font-size:var(--text-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</div>
+          <div style="font-size:11px;color:var(--color-ash-dark);margin-top:2px;">${s.id}</div>
+        </div>
+        ${report.average !== null ? `<div style="font-family:var(--font-display);font-size:var(--text-xl);color:${avgColor};line-height:1;">${report.average}%</div>` : '<div style="font-size:10px;color:var(--color-ash-dark);letter-spacing:.05em;">PENDING</div>'}
+      </div>`;
+  }).join('');
+
+  // Pagination
+  const pag = document.getElementById('classListPagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+  pag.innerHTML = `
+    <button class="page-btn" onclick="gotoClassPage(${currentClassPage-1})" ${currentClassPage===1?'disabled':''}>‹</button>
+    ${Array.from({length:totalPages},(_,i)=>`
+      <button class="page-btn ${i+1===currentClassPage?'active':''}" onclick="gotoClassPage(${i+1})">${i+1}</button>`).join('')}
+    <button class="page-btn" onclick="gotoClassPage(${currentClassPage+1})" ${currentClassPage===totalPages?'disabled':''}>›</button>`;
+}
+
+function gotoClassPage(n) {
+  currentClassPage = n;
+  renderClassList();
+  document.getElementById('classList').scrollIntoView({behavior:'smooth'});
+}
+
+/* ---- Multiple search results ---- */
+function renderMultipleResults(students) {
+  show('classList');
+  document.getElementById('classListTitle').textContent = 'Search Results';
+  document.getElementById('classListCount').textContent = `${students.length} matches`;
+  document.getElementById('classListPagination').innerHTML = '';
+  document.getElementById('classListGrid').innerHTML = students.map(s => {
+    const initials = s.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const cls = TCC.classOf(s.id);
+    return `
+      <div onclick="renderProfile(TCC.allStudents().find(x=>x.id==='${s.id}'))"
+           style="background:white;border-radius:var(--radius-lg);padding:var(--space-4);
+                  display:flex;align-items:center;gap:var(--space-3);cursor:pointer;
+                  border:1.5px solid var(--color-cream-deep);transition:border-color .15s;"
+           onmouseover="this.style.borderColor='var(--color-purple)'"
+           onmouseout="this.style.borderColor='var(--color-cream-deep)'">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--color-purple);
+                    display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:700;flex-shrink:0;">${initials}</div>
+        <div>
+          <div style="font-weight:600;font-size:var(--text-sm);">${s.name}</div>
+          <div style="font-size:11px;color:var(--color-ash-dark);margin-top:2px;">${s.id} · ${cls}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ---- Profile ---- */
+function renderProfile(student) {
+  if (!student) return;
+  hide('classList'); hide('emptyState'); hide('noMatchState');
+  show('profileOutput');
+  currentReport = TCC.computeReport(student.id);
+  currentSubjectPage = 1;
+  buildProfile(student);
+  document.getElementById('profileOutput').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function buildProfile(student) {
+  const report = currentReport;
+  const cls    = TCC.classOf(student.id);
+  const ct     = TCC.classTeachers[cls];
+  const initials = student.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const avgColor = report.average >= 65 ? 'var(--color-lemon)' : report.average >= 45 ? '#F0A800' : '#ff6b6b';
+
+  // Paginate subjects
+  const totalSubjPages = Math.ceil(report.rows.length / PAGE_SIZE_SUBJECTS);
+  const startSubj = (currentSubjectPage - 1) * PAGE_SIZE_SUBJECTS;
+  const pageRows  = report.rows.slice(startSubj, startSubj + PAGE_SIZE_SUBJECTS);
+
+  const subjectRows = pageRows.map(r => {
+    const color = r.total >= 65 ? 'var(--color-purple)' : r.total >= 45 ? '#8a5c00' : '#c0392b';
+    const barW  = r.total !== null ? r.total : 0;
+    return `<tr>
+      <td class="subj-name">${r.subject}</td>
+      <td style="color:var(--color-ash-dark);font-size:var(--text-sm);">${r.ca !== null ? r.ca : '—'}<span style="opacity:.4;font-size:10px;">/40</span></td>
+      <td style="color:var(--color-ash-dark);font-size:var(--text-sm);">${r.exam !== null ? r.exam : '—'}<span style="opacity:.4;font-size:10px;">/60</span></td>
+      <td>${r.total !== null ? `<span class="score-num" style="color:${color};">${r.total}</span>` : '<span class="pending-pill">Pending</span>'}</td>
+      <td><span class="grade-pill g-${r.letter.replace('—','-')}">${r.letter}</span></td>
+      <td style="font-size:var(--text-xs);opacity:.6;">${r.remark}</td>
+      <td><div class="bar-wrap"><div class="bar" style="width:${barW}%;background:${color};"></div></div></td>
+    </tr>`;
+  }).join('');
+
+  const subjPagination = totalSubjPages > 1 ? `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--space-4) var(--space-5);border-top:1px solid var(--color-cream-deep);background:var(--color-offwhite);">
+      <span style="font-size:var(--text-xs);color:var(--color-ash-dark);">Subjects ${startSubj+1}–${Math.min(startSubj+PAGE_SIZE_SUBJECTS,report.rows.length)} of ${report.rows.length}</span>
+      <div style="display:flex;gap:var(--space-2);">
+        <button class="page-btn" style="width:32px;height:32px;" onclick="gotoSubjPage(${currentSubjectPage-1},'${student.id}')" ${currentSubjectPage===1?'disabled':''}>‹</button>
+        ${Array.from({length:totalSubjPages},(_,i)=>`<button class="page-btn ${i+1===currentSubjectPage?'active':''}" style="width:32px;height:32px;" onclick="gotoSubjPage(${i+1},'${student.id}')">${i+1}</button>`).join('')}
+        <button class="page-btn" style="width:32px;height:32px;" onclick="gotoSubjPage(${currentSubjectPage+1},'${student.id}')" ${currentSubjectPage===totalSubjPages?'disabled':''}>›</button>
+      </div>
+    </div>` : '';
+
+  // Teacher / principal remarks from localStorage (set by teacher dashboard)
+  const remarks = JSON.parse(localStorage.getItem('tcc_remarks_'+student.id) || '{}');
+
+  document.getElementById('profileOutput').innerHTML = `
+    <div style="display:flex;justify-content:flex-end;max-width:720px;margin:0 auto var(--space-3);">
+      <button class="print-btn" onclick="window.print()">🖨 Print Report</button>
+      ${currentClassBrowse ? `<button onclick="show('classList');hide('profileOutput')" style="margin-left:var(--space-3);" class="print-btn">← Back to ${cls}</button>` : ''}
+    </div>
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar">${initials}</div>
+        <div style="flex:1;">
+          <div class="profile-name">${student.name}</div>
+          <div class="profile-meta">${cls} · Tendercare Comprehensive College</div>
+          <div class="profile-meta">Second Term · 2024/2025 Academic Session</div>
+          <div class="profile-id">${student.id}</div>
+        </div>
+        ${report.average !== null ? `
+        <div style="text-align:right;">
+          <span style="font-family:var(--font-display);font-size:var(--text-5xl);line-height:1;color:${avgColor};">${report.average}%</span>
+          <span style="display:block;font-size:var(--text-xs);opacity:.5;letter-spacing:var(--tracking-widest);text-transform:uppercase;margin-top:var(--space-1);">Average</span>
+        </div>` : ''}
+      </div>
+
+      <div class="profile-summary">
+        <div class="summary-cell">
+          <span class="summary-num" style="color:var(--color-purple);">${report.completed}</span>
+          <span class="summary-label">Subjects Recorded</span>
+        </div>
+        <div class="summary-cell">
+          <span class="summary-num" style="color:${report.average >= 45 ? 'var(--color-purple)':'#c0392b'};">${report.average !== null ? report.average+'%' : '—'}</span>
+          <span class="summary-label">Term Average</span>
+        </div>
+        <div class="summary-cell">
+          <span class="summary-num" style="color:var(--color-ink);">${report.rows.filter(r=>r.letter==='A').length}</span>
+          <span class="summary-label">A Grades</span>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="subject-table">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>CA <span style="font-weight:400;opacity:.6;">/40</span></th>
+              <th>Exam <span style="font-weight:400;opacity:.6;">/60</span></th>
+              <th>Total</th>
+              <th>Grade</th>
+              <th>Remark</th>
+              <th style="min-width:80px;"></th>
+            </tr>
+          </thead>
+          <tbody>${subjectRows}</tbody>
+        </table>
+      </div>
+      ${subjPagination}
+
+      <div class="remarks-section">
+        <div class="remark-box">
+          <div class="remark-label">Class Teacher's Comment</div>
+          <div class="remark-text">${remarks.teacher || 'Awaiting class teacher\'s comment.'}</div>
+        </div>
+        <div class="remark-box" style="background:var(--color-purple-ghost);">
+          <div class="remark-label">Principal's Comment</div>
+          <div class="remark-text">${remarks.principal || 'Awaiting principal\'s comment.'}</div>
+        </div>
+        <div style="margin-top:var(--space-4);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-3);">
+          <div style="font-size:var(--text-xs);color:var(--color-ash-dark);">Class Teacher: <strong>${ct?.name || '—'}</strong></div>
+          <div style="font-size:var(--text-xs);color:var(--color-ash-dark);">Next Term Begins: <strong>— Date TBC —</strong></div>
+        </div>
+      </div>
+    </div>`;
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.bar').forEach(b => {
+      const w = b.style.width; b.style.width = '0';
+      requestAnimationFrame(() => { b.style.width = w; });
+    });
+  }, 100);
+}
+
+function gotoSubjPage(n, studentId) {
+  currentSubjectPage = n;
+  const student = TCC.allStudents().find(s => s.id === studentId);
+  if (student) buildProfile(student);
+  document.getElementById('profileOutput').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function show(id) { document.getElementById(id).style.display = ''; }
+function hide(id) { document.getElementById(id).style.display = 'none'; }
+</script>
+</body>
+</html>

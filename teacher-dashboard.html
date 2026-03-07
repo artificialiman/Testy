@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Dashboard — Tendercare Comprehensive College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tendercare.css">
+  <style>
+    body { background:#F0EDE6; font-family:var(--font-sans); color:var(--color-ink); }
+
+    /* ---- Layout ---- */
+    .dash-layout { display:flex; min-height:100svh; }
+
+    /* Sidebar */
+    .sidebar {
+      width:260px; flex-shrink:0; background:var(--color-purple-deep); color:white;
+      display:flex; flex-direction:column; padding:var(--space-6) 0;
+      position:fixed; top:0; left:0; bottom:0; z-index:30;
+      transition:transform .3s var(--ease-out);
+    }
+    .sidebar__logo {
+      padding:var(--space-5) var(--space-6) var(--space-8);
+      font-family:var(--font-serif); font-size:1.1rem; font-weight:500;
+      letter-spacing:.02em; border-bottom:1px solid rgba(255,255,255,.08);
+      margin-bottom:var(--space-4);
+    }
+    .sidebar__label {
+      font-size:10px; letter-spacing:var(--tracking-widest); text-transform:uppercase;
+      opacity:.35; padding:0 var(--space-6); margin-bottom:var(--space-2);
+    }
+    .sidebar__link {
+      display:flex; align-items:center; gap:var(--space-3);
+      padding:var(--space-3) var(--space-6); font-size:var(--text-sm); font-weight:500;
+      opacity:.6; cursor:pointer; transition:opacity .15s, background .15s;
+      border-left:3px solid transparent;
+    }
+    .sidebar__link:hover { opacity:.9; background:rgba(255,255,255,.05); }
+    .sidebar__link.active { opacity:1; background:rgba(255,255,255,.08); border-left-color:var(--color-lemon); }
+    .sidebar__link .icon { width:18px; text-align:center; flex-shrink:0; }
+    .sidebar__teacher {
+      margin-top:auto; padding:var(--space-5) var(--space-6);
+      border-top:1px solid rgba(255,255,255,.08);
+      font-size:var(--text-sm);
+    }
+    .sidebar__teacher-name { font-weight:600; margin-bottom:2px; }
+    .sidebar__teacher-role { opacity:.45; font-size:var(--text-xs); }
+
+    /* Main content */
+    .main-content {
+      margin-left:260px; flex:1; padding:var(--space-8) var(--space-8) var(--space-16);
+      max-width:calc(100% - 260px);
+    }
+    @media (max-width:768px) {
+      .sidebar { transform:translateX(-100%); }
+      .sidebar.open { transform:translateX(0); }
+      .main-content { margin-left:0; max-width:100%; padding:var(--space-5); }
+    }
+
+    /* Page header */
+    .page-header { margin-bottom:var(--space-8); padding-top:var(--space-4); }
+    .page-title { font-family:var(--font-serif); font-size:var(--text-3xl); font-weight:300; }
+    .page-subtitle { font-size:var(--text-sm); opacity:.5; margin-top:var(--space-2); }
+
+    /* Panels */
+    .panel { display:none; }
+    .panel.active { display:block; animation:fadeIn .3s ease; }
+
+    /* Cards */
+    .card {
+      background:white; border-radius:var(--radius-lg);
+      padding:var(--space-6); margin-bottom:var(--space-5);
+      box-shadow:0 1px 4px rgba(0,0,0,.06);
+    }
+    .card-title {
+      font-size:var(--text-xs); letter-spacing:var(--tracking-widest);
+      text-transform:uppercase; color:var(--color-ash-dark); margin-bottom:var(--space-5);
+    }
+
+    /* Score entry */
+    .student-row {
+      display:grid; grid-template-columns:1fr 80px 80px 60px;
+      gap:var(--space-3); align-items:center;
+      padding:var(--space-3) 0; border-bottom:1px solid #f5f2ec;
+    }
+    .student-row:last-child { border-bottom:none; }
+    .student-row-name { font-size:var(--text-sm); font-weight:500; }
+    .student-row-id { font-size:11px; color:var(--color-ash-dark); margin-top:2px; }
+
+    .score-input {
+      width:100%; border:1.5px solid var(--color-cream-deep); border-radius:var(--radius-md);
+      padding:var(--space-2) var(--space-3); font-family:var(--font-sans);
+      font-size:var(--text-sm); text-align:center; outline:none;
+      transition:border-color .2s; background:var(--color-offwhite);
+    }
+    .score-input:focus { border-color:var(--color-purple); background:white; }
+    .score-input.over { border-color:#c0392b; background:#fff0f0; }
+    .score-input.saved { border-color:#1a6640; background:#e8f8e8; }
+
+    .total-badge {
+      font-family:var(--font-display); font-size:var(--text-xl); line-height:1;
+      text-align:center;
+    }
+
+    /* Subject + class selector */
+    .selector-row { display:flex; gap:var(--space-3); flex-wrap:wrap; margin-bottom:var(--space-6); }
+    .select-field {
+      flex:1; min-width:160px; border:1.5px solid var(--color-cream-deep);
+      border-radius:var(--radius-md); padding:var(--space-3) var(--space-4);
+      font-family:var(--font-sans); font-size:var(--text-sm); outline:none;
+      background:white; cursor:pointer; transition:border-color .2s;
+    }
+    .select-field:focus { border-color:var(--color-purple); }
+
+    /* Save bar */
+    .save-bar {
+      position:sticky; bottom:0; background:rgba(240,237,230,.95);
+      backdrop-filter:blur(8px); padding:var(--space-4) var(--space-6);
+      display:flex; align-items:center; justify-content:space-between;
+      border-top:1px solid var(--color-cream-deep); margin:0 calc(-1*var(--space-8));
+      z-index:10;
+    }
+    @media(max-width:768px) { .save-bar { margin:0 calc(-1*var(--space-5)); } }
+
+    /* Completion tracker */
+    .completion-table { width:100%; border-collapse:collapse; }
+    .completion-table th {
+      font-size:10px; letter-spacing:var(--tracking-widest); text-transform:uppercase;
+      color:var(--color-ash-dark); padding:var(--space-2) var(--space-4);
+      text-align:left; border-bottom:1px solid var(--color-cream-deep);
+      background:var(--color-offwhite);
+    }
+    .completion-table td {
+      padding:var(--space-3) var(--space-4); border-bottom:1px solid #f5f2ec;
+      font-size:var(--text-sm); vertical-align:middle;
+    }
+    .completion-table tr:last-child td { border-bottom:none; }
+    .completion-table tr:hover td { background:var(--color-cream); }
+
+    .subj-dot {
+      display:inline-block; width:10px; height:10px; border-radius:50%;
+      margin-right:4px; flex-shrink:0;
+    }
+    .dot-done    { background:#1a6640; }
+    .dot-partial { background:#F0A800; }
+    .dot-empty   { background:var(--color-cream-deep); }
+
+    .progress-bar-wrap { width:120px; height:6px; background:var(--color-cream-deep); border-radius:3px; overflow:hidden; display:inline-block; vertical-align:middle; }
+    .progress-bar { height:100%; border-radius:3px; background:var(--color-purple); transition:width .6s var(--ease-out); }
+
+    /* Notify button */
+    .notify-btn {
+      font-size:10px; letter-spacing:.05em; text-transform:uppercase; font-weight:600;
+      padding:4px 10px; border-radius:var(--radius-full); cursor:pointer;
+      border:1.5px solid var(--color-wine); color:var(--color-wine); background:transparent;
+      transition:all .15s;
+    }
+    .notify-btn:hover { background:var(--color-wine); color:white; }
+    .notify-btn.sent { border-color:#1a6640; color:#1a6640; }
+    .notify-btn.sent:hover { background:#1a6640; color:white; }
+
+    /* Lesson note library */
+    .note-grid { display:grid; grid-template-columns:1fr; gap:var(--space-4); }
+    @media(min-width:640px) { .note-grid { grid-template-columns:1fr 1fr; } }
+
+    .note-card {
+      background:white; border-radius:var(--radius-lg); overflow:hidden;
+      border:1.5px solid var(--color-cream-deep); transition:border-color .15s, box-shadow .15s;
+      cursor:pointer;
+    }
+    .note-card:hover { border-color:var(--color-purple); box-shadow:var(--shadow-md); }
+    .note-card__header { background:var(--color-purple); padding:var(--space-4) var(--space-5); }
+    .note-card__subject { font-family:var(--font-sans); font-size:var(--text-xs); letter-spacing:var(--tracking-widest); text-transform:uppercase; color:rgba(255,255,255,.5); margin-bottom:var(--space-1); }
+    .note-card__title { font-family:var(--font-serif); font-size:var(--text-lg); color:white; font-weight:300; }
+    .note-card__body { padding:var(--space-4) var(--space-5); }
+    .note-card__meta { font-size:var(--text-xs); color:var(--color-ash-dark); margin-bottom:var(--space-3); }
+
+    /* Upload note form */
+    .note-form { background:white; border-radius:var(--radius-lg); padding:var(--space-6); margin-bottom:var(--space-5); border:2px dashed var(--color-purple-light); }
+    .note-textarea {
+      width:100%; min-height:180px; border:1.5px solid var(--color-cream-deep);
+      border-radius:var(--radius-md); padding:var(--space-4); font-family:var(--font-sans);
+      font-size:var(--text-sm); resize:vertical; outline:none; line-height:var(--leading-loose);
+    }
+    .note-textarea:focus { border-color:var(--color-purple); }
+    .form-field {
+      width:100%; border:1.5px solid var(--color-cream-deep); border-radius:var(--radius-md);
+      padding:var(--space-3) var(--space-4); font-family:var(--font-sans); font-size:var(--text-sm);
+      outline:none; margin-bottom:var(--space-4); background:var(--color-offwhite);
+    }
+    .form-field:focus { border-color:var(--color-purple); background:white; }
+
+    /* Toast */
+    .toast {
+      position:fixed; bottom:var(--space-8); right:var(--space-6);
+      background:var(--color-ink); color:white; padding:var(--space-3) var(--space-6);
+      border-radius:var(--radius-full); font-size:var(--text-sm); font-weight:500;
+      z-index:9999; transform:translateY(20px); opacity:0;
+      transition:all .3s var(--ease-out); pointer-events:none;
+    }
+    .toast.show { transform:translateY(0); opacity:1; }
+    .toast.success { background:#1a6640; }
+    .toast.warning { background:var(--color-wine); }
+
+    /* Stat cards top */
+    .stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-4); margin-bottom:var(--space-6); }
+    @media(min-width:640px) { .stat-grid { grid-template-columns:repeat(4,1fr); } }
+    .stat-card { background:white; border-radius:var(--radius-lg); padding:var(--space-5); box-shadow:0 1px 4px rgba(0,0,0,.06); }
+    .stat-card__num { font-family:var(--font-display); font-size:var(--text-3xl); line-height:1; margin-bottom:var(--space-1); }
+    .stat-card__label { font-size:var(--text-xs); letter-spacing:var(--tracking-widest); text-transform:uppercase; opacity:.45; }
+
+    /* Mobile toggle */
+    .mob-toggle { display:none; position:fixed; top:var(--space-4); left:var(--space-4); z-index:40; background:var(--color-purple-deep); color:white; border:none; border-radius:var(--radius-md); padding:var(--space-2) var(--space-3); cursor:pointer; }
+    @media(max-width:768px) { .mob-toggle { display:flex; align-items:center; gap:var(--space-2); font-size:var(--text-sm); } }
+  </style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- Mobile toggle -->
+<button class="mob-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">
+  ☰ <span>Menu</span>
+</button>
+
+<div class="dash-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar__logo">TCC Staff Dashboard</div>
+
+    <div class="sidebar__label">Score Entry</div>
+    <div class="sidebar__link active" onclick="switchPanel('scores',this)">
+      <span class="icon">✏️</span> Enter Scores
+    </div>
+
+    <div class="sidebar__label" style="margin-top:var(--space-4);">Class Teacher</div>
+    <div class="sidebar__link" onclick="switchPanel('completion',this)">
+      <span class="icon">📊</span> Completion Tracker
+    </div>
+    <div class="sidebar__link" onclick="switchPanel('remarks',this)">
+      <span class="icon">💬</span> Student Remarks
+    </div>
+
+    <div class="sidebar__label" style="margin-top:var(--space-4);">Resources</div>
+    <div class="sidebar__link" onclick="switchPanel('notes',this)">
+      <span class="icon">📚</span> Lesson Note Library
+    </div>
+
+    <div class="sidebar__teacher" id="teacherInfo">
+      <div class="sidebar__teacher-name" id="teacherName">Select Teacher</div>
+      <div class="sidebar__teacher-role" id="teacherRole">Not signed in</div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+
+    <!-- Teacher selector (demo — replaces auth) -->
+    <div id="teacherSelector" style="background:var(--color-lemon);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-5);margin-bottom:var(--space-6);display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap;">
+      <span style="font-size:var(--text-sm);font-weight:600;">👤 Demo: Sign in as</span>
+      <select id="teacherSelect" class="select-field" style="min-width:200px;flex:none;" onchange="setTeacher()">
+        <option value="">Select a teacher…</option>
+        <option value="TCH001">Mr. Adeyemi — Mathematics</option>
+        <option value="TCH002">Mrs. Okafor — English · Class Teacher JSS3A</option>
+        <option value="TCH003">Mr. Ibrahim — Basic Science · Class Teacher JSS3B</option>
+        <option value="TCH004">Mrs. Balogun — Social Studies</option>
+        <option value="TCH005">Mr. Okonkwo — Business Studies</option>
+        <option value="TCH006">Mme. Adeleke — French</option>
+        <option value="TCH007">Mr. Salami — PHE</option>
+        <option value="TCH008">Mrs. Nwosu — Cultural & Creative Arts</option>
+        <option value="TCH009">Pastor Oluwole — CRS/IRS</option>
+        <option value="TCH010">Mr. Fashola — Computer Studies</option>
+        <option value="TCH011">Mrs. Dada — Civic Education</option>
+      </select>
+    </div>
+
+    <!-- ============ PANEL: SCORES ============ -->
+    <div class="panel active" id="panel-scores">
+      <div class="page-header">
+        <h1 class="page-title">Enter Scores</h1>
+        <p class="page-subtitle" id="scoresSubtitle">Select your subject and class to begin.</p>
+      </div>
+
+      <div class="selector-row">
+        <select class="select-field" id="scoreSubject" onchange="loadScoreTable()">
+          <option value="">Select subject…</option>
+        </select>
+        <select class="select-field" id="scoreClass" onchange="loadScoreTable()">
+          <option value="">Select class…</option>
+          <option value="JSS3A">JSS3A</option>
+          <option value="JSS3B">JSS3B</option>
+        </select>
+      </div>
+
+      <div class="card" id="scoreTableCard" style="display:none;">
+        <div class="card-title" id="scoreTableTitle"></div>
+        <div style="display:grid;grid-template-columns:1fr 80px 80px 60px;gap:var(--space-3);padding:var(--space-2) 0 var(--space-3);border-bottom:2px solid var(--color-cream-deep);margin-bottom:var(--space-2);">
+          <span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.5;">Student</span>
+          <span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.5;text-align:center;">CA <span style="opacity:.6;">/40</span></span>
+          <span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.5;text-align:center;">Exam <span style="opacity:.6;">/60</span></span>
+          <span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.5;text-align:center;">Total</span>
+        </div>
+        <div id="scoreTableBody"></div>
+      </div>
+
+      <div class="save-bar" id="saveBar" style="display:none;">
+        <span style="font-size:var(--text-sm);opacity:.6;" id="saveBarLabel"></span>
+        <div style="display:flex;gap:var(--space-3);">
+          <button class="btn btn--ghost" style="font-size:var(--text-sm);" onclick="exportScoresJSON()">Export JSON</button>
+          <button class="btn btn--primary" onclick="saveAllScores()">Save All Scores</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PANEL: COMPLETION ============ -->
+    <div class="panel" id="panel-completion">
+      <div class="page-header">
+        <h1 class="page-title">Completion Tracker</h1>
+        <p class="page-subtitle">Class teacher view — see which subject scores are still missing for your class.</p>
+      </div>
+      <div id="completionNotice" style="background:var(--color-lemon);border-radius:var(--radius-md);padding:var(--space-3) var(--space-5);margin-bottom:var(--space-5);font-size:var(--text-sm);font-weight:600;display:none;">
+        ⚠️ You are not assigned as a class teacher. This view is for class teachers only.
+      </div>
+      <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-6);">
+        <button class="btn btn--ghost" style="font-size:var(--text-sm);" onclick="loadCompletion('JSS3A')" id="comp3a">JSS3A</button>
+        <button class="btn btn--ghost" style="font-size:var(--text-sm);" onclick="loadCompletion('JSS3B')" id="comp3b">JSS3B</button>
+      </div>
+      <div id="completionOutput"></div>
+    </div>
+
+    <!-- ============ PANEL: REMARKS ============ -->
+    <div class="panel" id="panel-remarks">
+      <div class="page-header">
+        <h1 class="page-title">Student Remarks</h1>
+        <p class="page-subtitle">Write class teacher and principal comments for each student in your class.</p>
+      </div>
+      <div class="selector-row">
+        <select class="select-field" id="remarksClass" onchange="loadRemarksTable()" style="max-width:200px;">
+          <option value="">Select class…</option>
+          <option value="JSS3A">JSS3A</option>
+          <option value="JSS3B">JSS3B</option>
+        </select>
+      </div>
+      <div id="remarksOutput"></div>
+    </div>
+
+    <!-- ============ PANEL: NOTES ============ -->
+    <div class="panel" id="panel-notes">
+      <div class="page-header">
+        <h1 class="page-title">Lesson Note Library</h1>
+        <p class="page-subtitle">Upload and browse lesson notes. Available to all staff.</p>
+      </div>
+
+      <!-- Upload form -->
+      <details>
+        <summary style="font-size:var(--text-sm);font-weight:600;cursor:pointer;color:var(--color-purple);margin-bottom:var(--space-4);">+ Add New Lesson Note</summary>
+        <div class="note-form" style="margin-top:var(--space-4);">
+          <input class="form-field" id="noteTitle" type="text" placeholder="Lesson title e.g. Photosynthesis — Part 1" />
+          <div style="display:flex;gap:var(--space-3);">
+            <select class="form-field" id="noteSubject" style="flex:1;">
+              <option value="">Subject…</option>
+            </select>
+            <select class="form-field" id="noteClass" style="flex:1;">
+              <option value="">Class…</option>
+              <option value="JSS3A">JSS3A</option>
+              <option value="JSS3B">JSS3B</option>
+              <option value="Both">Both</option>
+            </select>
+          </div>
+          <input class="form-field" id="noteWeek" type="text" placeholder="Week / topic reference e.g. Week 5 — Term 2" />
+          <textarea class="note-textarea" id="noteBody" placeholder="Paste or type your lesson note here…"></textarea>
+          <div style="display:flex;justify-content:flex-end;margin-top:var(--space-4);">
+            <button class="btn btn--primary" onclick="saveNote()">Save to Library</button>
+          </div>
+        </div>
+      </details>
+
+      <!-- Filter -->
+      <div style="display:flex;gap:var(--space-3);margin-bottom:var(--space-5);flex-wrap:wrap;">
+        <select class="select-field" id="filterNoteSubject" onchange="renderNotes()" style="max-width:200px;">
+          <option value="">All subjects</option>
+        </select>
+        <select class="select-field" id="filterNoteClass" onchange="renderNotes()" style="max-width:140px;">
+          <option value="">All classes</option>
+          <option value="JSS3A">JSS3A</option>
+          <option value="JSS3B">JSS3B</option>
+          <option value="Both">Both</option>
+        </select>
+      </div>
+
+      <div class="note-grid" id="notesGrid"></div>
+      <p id="noNotesMsg" style="text-align:center;padding:var(--space-12);font-size:var(--text-sm);opacity:.4;display:none;">No lesson notes yet. Add one above.</p>
+
+      <!-- Note viewer modal -->
+      <div id="noteModal" style="position:fixed;inset:0;background:rgba(26,16,32,.6);backdrop-filter:blur(6px);z-index:9998;display:flex;align-items:center;justify-content:center;padding:var(--space-5);opacity:0;pointer-events:none;transition:opacity .25s;">
+        <div style="background:white;border-radius:var(--radius-xl);max-width:680px;width:100%;max-height:85vh;overflow-y:auto;padding:var(--space-8);position:relative;transform:scale(.96);transition:transform .25s var(--ease-out);" id="noteModalBox">
+          <button onclick="closeNoteModal()" style="position:absolute;top:var(--space-4);right:var(--space-4);background:var(--color-cream-deep);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;">✕</button>
+          <div id="noteModalContent"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/tcc-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+/* ============================================================
+   TEACHER DASHBOARD
+   
+   DEMO MODE: localStorage.
+   
+   ── SUPABASE UPGRADE ──────────────────────────────────────────
+   1. Add tcc_scores table (see results.html comments)
+   
+   2. Replace saveAllScores():
+      async function saveAllScores() {
+        const rows = buildScoreRows();
+        await window.db.from('tcc_scores').upsert(rows);
+        showToast('Scores saved to database', 'success');
+      }
+   
+   3. Replace loadScoreTable() fetch section:
+      const { data } = await window.db.from('tcc_scores')
+        .select('*').eq('class', cls).eq('subject', subj);
+      // populate inputs from data
+   
+   4. For lesson notes:
+      CREATE TABLE tcc_notes (
+        id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+        teacher_id text, title text, subject text,
+        class text, week text, body text,
+        created_at timestamptz DEFAULT now()
+      );
+   ──────────────────────────────────────────────────────────── */
+
+/* ---- State ---- */
+let currentTeacher = null;
+let currentSubject = null;
+let currentClass   = null;
+
+/* ---- Teacher login (demo) ---- */
+function setTeacher() {
+  const id = document.getElementById('teacherSelect').value;
+  if (!id) return;
+  const names = {
+    TCH001:'Mr. Adeyemi',TCH002:'Mrs. Okafor',TCH003:'Mr. Ibrahim',
+    TCH004:'Mrs. Balogun',TCH005:'Mr. Okonkwo',TCH006:'Mme. Adeleke',
+    TCH007:'Mr. Salami',TCH008:'Mrs. Nwosu',TCH009:'Pastor Oluwole',
+    TCH010:'Mr. Fashola',TCH011:'Mrs. Dada'
+  };
+  const roles = {
+    TCH001:'Mathematics',TCH002:'English · Class Teacher JSS3A',TCH003:'Basic Science · Class Teacher JSS3B',
+    TCH004:'Social Studies',TCH005:'Business Studies',TCH006:'French',
+    TCH007:'PHE',TCH008:'Cultural & Creative Arts',TCH009:'CRS / IRS',
+    TCH010:'Computer Studies',TCH011:'Civic Education'
+  };
+  currentTeacher = { id, name: names[id], role: roles[id] };
+  document.getElementById('teacherName').textContent = names[id];
+  document.getElementById('teacherRole').textContent = roles[id];
+
+  // Pre-select teacher's subject in score entry
+  const subjMap = {
+    TCH001:'Mathematics',TCH002:'English Language',TCH003:'Basic Science',
+    TCH004:'Social Studies',TCH005:'Business Studies',TCH006:'French',
+    TCH007:'Physical & Health Education',TCH008:'Cultural & Creative Arts',
+    TCH009:'CRS / IRS',TCH010:'Computer Studies',TCH011:'Civic Education'
+  };
+  if (subjMap[id]) {
+    document.getElementById('scoreSubject').value = subjMap[id];
+    loadScoreTable();
+  }
+  showToast('Signed in as ' + names[id], 'success');
+}
+
+/* ---- Panel switching ---- */
+function switchPanel(name, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  el.classList.add('active');
+  if (name === 'notes') renderNotes();
+}
+
+/* ---- Populate subject selects ---- */
+function populateSubjectSelects() {
+  const selects = ['scoreSubject','noteSubject','filterNoteSubject'];
+  selects.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const hasAll = id.startsWith('filter');
+    TCC.subjects.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      el.appendChild(opt);
+    });
+  });
+}
+
+/* ---- Score entry ---- */
+function loadScoreTable() {
+  const subj = document.getElementById('scoreSubject').value;
+  const cls  = document.getElementById('scoreClass').value;
+  if (!subj || !cls) return;
+  currentSubject = subj; currentClass = cls;
+
+  document.getElementById('scoresSubtitle').textContent = `${subj} · ${cls} · Second Term 2024/2025`;
+  document.getElementById('scoreTableTitle').textContent = `${cls} — ${subj} (CA /40 + Exam /60)`;
+  document.getElementById('scoreTableCard').style.display = 'block';
+  document.getElementById('saveBar').style.display = 'flex';
+  document.getElementById('saveBarLabel').textContent = `${TCC.students[cls].length} students · unsaved changes shown in yellow`;
+
+  const students = TCC.students[cls];
+  document.getElementById('scoreTableBody').innerHTML = students.map(s => {
+    const saved = TCC.loadScores(s.id)[subj] || {};
+    const ca   = saved.ca   !== null && saved.ca   !== undefined ? saved.ca   : '';
+    const exam = saved.exam !== null && saved.exam !== undefined ? saved.exam : '';
+    const total = (ca !== '' && exam !== '') ? parseInt(ca)+parseInt(exam) : '—';
+    const totalColor = total !== '—' ? (total >= 45 ? 'var(--color-purple)' : '#c0392b') : 'var(--color-ash-dark)';
+    return `
+      <div class="student-row" id="row-${s.id}">
+        <div>
+          <div class="student-row-name">${s.name}</div>
+          <div class="student-row-id">${s.id}</div>
+        </div>
+        <input class="score-input" id="ca-${s.id}" type="number" min="0" max="40" value="${ca}"
+               placeholder="0" oninput="updateTotal('${s.id}')" />
+        <input class="score-input" id="ex-${s.id}" type="number" min="0" max="60" value="${exam}"
+               placeholder="0" oninput="updateTotal('${s.id}')" />
+        <div class="total-badge" id="tot-${s.id}" style="color:${totalColor};">${total}</div>
+      </div>`;
+  }).join('');
+}
+
+function updateTotal(studentId) {
+  const caEl = document.getElementById('ca-'+studentId);
+  const exEl = document.getElementById('ex-'+studentId);
+  const totEl = document.getElementById('tot-'+studentId);
+  const ca  = parseFloat(caEl.value);
+  const ex  = parseFloat(exEl.value);
+
+  caEl.classList.toggle('over', ca > 40);
+  exEl.classList.toggle('over', ex > 60);
+
+  if (!isNaN(ca) && !isNaN(ex) && ca <= 40 && ex <= 60) {
+    const total = ca + ex;
+    totEl.textContent = total;
+    totEl.style.color = total >= 45 ? 'var(--color-purple)' : '#c0392b';
+  } else {
+    totEl.textContent = '—';
+    totEl.style.color = 'var(--color-ash-dark)';
+  }
+}
+
+function saveAllScores() {
+  if (!currentSubject || !currentClass) return;
+  const students = TCC.students[currentClass];
+  let saved = 0;
+  students.forEach(s => {
+    const caEl = document.getElementById('ca-'+s.id);
+    const exEl = document.getElementById('ex-'+s.id);
+    if (!caEl || !exEl) return;
+    const ca  = caEl.value !== '' ? parseFloat(caEl.value) : null;
+    const exam = exEl.value !== '' ? parseFloat(exEl.value) : null;
+    if (ca > 40 || exam > 60) return; // skip invalid
+    const existing = TCC.loadScores(s.id);
+    existing[currentSubject] = { ca, exam };
+    TCC.saveScores(s.id, existing);
+    caEl.classList.add('saved'); exEl.classList.add('saved');
+    setTimeout(() => { caEl.classList.remove('saved'); exEl.classList.remove('saved'); }, 1500);
+    if (ca !== null || exam !== null) saved++;
+  });
+  showToast(`${saved} records saved ✓`, 'success');
+}
+
+function exportScoresJSON() {
+  if (!currentSubject || !currentClass) return;
+  const students = TCC.students[currentClass];
+  const data = students.map(s => {
+    const caEl = document.getElementById('ca-'+s.id);
+    const exEl = document.getElementById('ex-'+s.id);
+    return {
+      id: s.id, name: s.name, class: currentClass,
+      subject: currentSubject, term: 'Second Term 2024/2025',
+      ca: caEl?.value !== '' ? parseFloat(caEl.value) : null,
+      exam: exEl?.value !== '' ? parseFloat(exEl.value) : null
+    };
+  });
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `TCC_${currentClass}_${currentSubject.replace(/ /g,'_')}_Term2.json`;
+  a.click();
+  showToast('JSON exported ✓', 'success');
+}
+
+/* ---- Completion tracker ---- */
+function loadCompletion(cls) {
+  document.getElementById('comp3a').className = cls==='JSS3A' ? 'btn btn--primary' : 'btn btn--ghost';
+  document.getElementById('comp3b').className = cls==='JSS3B' ? 'btn btn--primary' : 'btn btn--ghost';
+  document.getElementById('comp3a').style.fontSize = document.getElementById('comp3b').style.fontSize = 'var(--text-sm)';
+
+  const data = TCC.classCompletion(cls);
+  const total = data.length;
+  const done  = data.filter(s => s.done).length;
+  const pct   = Math.round(done/total*100);
+
+  document.getElementById('completionOutput').innerHTML = `
+    <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="stat-card">
+        <div class="stat-card__num" style="color:var(--color-purple);">${total}</div>
+        <div class="stat-card__label">Students</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__num" style="color:#1a6640;">${done}</div>
+        <div class="stat-card__label">Complete</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__num" style="color:${pct===100?'#1a6640':'var(--color-wine)'};">${pct}%</div>
+        <div class="stat-card__label">Progress</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">${cls} — Score Completion · Second Term 2024/2025</div>
+      <div style="overflow-x:auto;">
+        <table class="completion-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Subjects Done</th>
+              <th>Progress</th>
+              <th>Average</th>
+              <th>Missing</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.map(s => {
+              const missing = TCC.missingSubjects(s.id);
+              const pct = Math.round(s.completed / s.total * 100);
+              const dotClass = s.done ? 'dot-done' : s.completed > 0 ? 'dot-partial' : 'dot-empty';
+              return `
+                <tr>
+                  <td>
+                    <div style="font-weight:500;font-size:var(--text-sm);">${s.name}</div>
+                    <div style="font-size:11px;color:var(--color-ash-dark);">${s.id}</div>
+                  </td>
+                  <td>
+                    <span class="subj-dot ${dotClass}"></span>
+                    <span style="font-size:var(--text-sm);">${s.completed}<span style="opacity:.4;">/${s.total}</span></span>
+                  </td>
+                  <td>
+                    <div class="progress-bar-wrap">
+                      <div class="progress-bar" style="width:${pct}%;background:${s.done?'#1a6640':'var(--color-purple)'};"></div>
+                    </div>
+                    <span style="font-size:10px;color:var(--color-ash-dark);margin-left:6px;">${pct}%</span>
+                  </td>
+                  <td style="font-family:var(--font-display);font-size:var(--text-xl);color:${s.average>=45?'var(--color-purple)':'#c0392b'};">
+                    ${s.average !== null ? s.average+'%' : '—'}
+                  </td>
+                  <td style="font-size:var(--text-xs);color:var(--color-wine);max-width:160px;line-height:1.5;">
+                    ${missing.length ? missing.join(', ') : '<span style="color:#1a6640;">All recorded ✓</span>'}
+                  </td>
+                  <td>
+                    ${missing.length ? `<button class="notify-btn" id="notif-${s.id}" onclick="sendNotification('${s.id}','${s.name}','${missing.join(';')}',this)">Notify</button>` : ''}
+                  </td>
+                </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+
+  // Animate progress bars
+  setTimeout(() => {
+    document.querySelectorAll('.progress-bar').forEach(b => {
+      const w = b.style.width; b.style.width = '0';
+      requestAnimationFrame(() => { b.style.width = w; });
+    });
+  }, 100);
+}
+
+function sendNotification(studentId, studentName, missingStr, btn) {
+  const missing = missingStr.split(';');
+  const teachers = missing.map(s => TCC.subjectTeachers[s]?.name || s).join(', ');
+  // In production: send Supabase notification / email / SMS
+  // Demo: just log and show toast
+  console.log(`NOTIFICATION: ${teachers} — scores missing for ${studentName} (${studentId}). Subjects: ${missing.join(', ')}`);
+  btn.textContent = 'Sent ✓';
+  btn.classList.add('sent');
+  showToast(`Notified: ${teachers}`, 'success');
+}
+
+/* ---- Remarks ---- */
+function loadRemarksTable() {
+  const cls = document.getElementById('remarksClass').value;
+  if (!cls) return;
+  const students = TCC.students[cls];
+  document.getElementById('remarksOutput').innerHTML = `
+    <div class="card">
+      <div class="card-title">Comments for ${cls}</div>
+      ${students.map(s => {
+        const saved = JSON.parse(localStorage.getItem('tcc_remarks_'+s.id)||'{}');
+        return `
+          <div style="padding:var(--space-5) 0;border-bottom:1px solid #f5f2ec;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3);">
+              <div>
+                <span style="font-weight:600;font-size:var(--text-sm);">${s.name}</span>
+                <span style="font-size:11px;color:var(--color-ash-dark);margin-left:var(--space-2);">${s.id}</span>
+              </div>
+              <button class="btn btn--primary" style="padding:var(--space-2) var(--space-4);font-size:11px;" onclick="saveRemark('${s.id}')">Save</button>
+            </div>
+            <textarea id="remark-t-${s.id}" style="width:100%;min-height:60px;border:1.5px solid var(--color-cream-deep);border-radius:var(--radius-md);padding:var(--space-3);font-family:var(--font-sans);font-size:var(--text-sm);outline:none;resize:vertical;margin-bottom:var(--space-2);" placeholder="Class teacher's comment…">${saved.teacher||''}</textarea>
+            <textarea id="remark-p-${s.id}" style="width:100%;min-height:60px;border:1.5px solid var(--color-purple-light);border-radius:var(--radius-md);padding:var(--space-3);font-family:var(--font-sans);font-size:var(--text-sm);outline:none;resize:vertical;background:var(--color-purple-ghost);" placeholder="Principal's comment…">${saved.principal||''}</textarea>
+          </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function saveRemark(studentId) {
+  const t = document.getElementById('remark-t-'+studentId).value.trim();
+  const p = document.getElementById('remark-p-'+studentId).value.trim();
+  localStorage.setItem('tcc_remarks_'+studentId, JSON.stringify({teacher:t, principal:p}));
+  showToast('Remarks saved ✓', 'success');
+}
+
+/* ---- Lesson notes ---- */
+function saveNote() {
+  const title   = document.getElementById('noteTitle').value.trim();
+  const subject = document.getElementById('noteSubject').value;
+  const cls     = document.getElementById('noteClass').value;
+  const week    = document.getElementById('noteWeek').value.trim();
+  const body    = document.getElementById('noteBody').value.trim();
+  if (!title || !subject || !body) { showToast('Fill in title, subject, and note body.', 'warning'); return; }
+
+  const notes = JSON.parse(localStorage.getItem('tcc_lesson_notes')||'[]');
+  notes.unshift({
+    id: Date.now(), title, subject, class: cls, week, body,
+    author: currentTeacher?.name || 'Staff',
+    created: new Date().toLocaleDateString('en-NG', {day:'numeric',month:'short',year:'numeric'})
+  });
+  localStorage.setItem('tcc_lesson_notes', JSON.stringify(notes));
+  document.getElementById('noteTitle').value = '';
+  document.getElementById('noteBody').value  = '';
+  document.getElementById('noteWeek').value  = '';
+  showToast('Lesson note saved ✓', 'success');
+  renderNotes();
+}
+
+function renderNotes() {
+  const filterSubj = document.getElementById('filterNoteSubject').value;
+  const filterCls  = document.getElementById('filterNoteClass').value;
+  let notes = JSON.parse(localStorage.getItem('tcc_lesson_notes')||'[]');
+  if (filterSubj) notes = notes.filter(n => n.subject === filterSubj);
+  if (filterCls)  notes = notes.filter(n => n.class === filterCls || n.class === 'Both');
+
+  const grid = document.getElementById('notesGrid');
+  const noMsg = document.getElementById('noNotesMsg');
+  if (!notes.length) { grid.innerHTML = ''; noMsg.style.display = 'block'; return; }
+  noMsg.style.display = 'none';
+
+  // Add demo notes if library is empty
+  if (notes.length === 0) notes = getDemoNotes();
+
+  grid.innerHTML = notes.map(n => `
+    <div class="note-card" onclick="openNote(${n.id})">
+      <div class="note-card__header" style="background:${subjectColor(n.subject)};">
+        <div class="note-card__subject">${n.subject}</div>
+        <div class="note-card__title">${n.title}</div>
+      </div>
+      <div class="note-card__body">
+        <div class="note-card__meta">${[n.class, n.week, n.created].filter(Boolean).join(' · ')}</div>
+        <p style="font-size:var(--text-sm);opacity:.6;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;">${n.body}</p>
+        <div style="margin-top:var(--space-3);font-size:11px;color:var(--color-ash-dark);">By ${n.author}</div>
+      </div>
+    </div>`).join('');
+}
+
+function subjectColor(s) {
+  const map = {
+    'Mathematics':'#3A1A5C','English Language':'#1A3A5C','Basic Science':'#103028',
+    'Social Studies':'#1A2810','Business Studies':'#281A10','French':'#201028',
+    'Physical & Health Education':'#102018','Cultural & Creative Arts':'#281018',
+    'CRS / IRS':'#18100A','Computer Studies':'#0A1828','Civic Education':'#1A1828'
+  };
+  return map[s] || 'var(--color-purple-deep)';
+}
+
+function openNote(id) {
+  const notes = JSON.parse(localStorage.getItem('tcc_lesson_notes')||'[]');
+  const n = notes.find(x => x.id === id); if (!n) return;
+  document.getElementById('noteModalContent').innerHTML = `
+    <div style="font-size:var(--text-xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--color-purple);margin-bottom:var(--space-2);">${n.subject}</div>
+    <h2 style="font-family:var(--font-serif);font-size:var(--text-2xl);font-weight:300;margin-bottom:var(--space-2);">${n.title}</h2>
+    <p style="font-size:var(--text-xs);color:var(--color-ash-dark);margin-bottom:var(--space-6);">${[n.class,n.week,n.created,'By '+n.author].filter(Boolean).join(' · ')}</p>
+    <div style="font-family:var(--font-sans);font-size:var(--text-base);line-height:var(--leading-loose);white-space:pre-wrap;color:var(--color-ink-soft);">${n.body}</div>`;
+  const modal = document.getElementById('noteModal');
+  modal.style.opacity='1'; modal.style.pointerEvents='all';
+  document.getElementById('noteModalBox').style.transform='scale(1)';
+}
+
+function closeNoteModal() {
+  const modal = document.getElementById('noteModal');
+  modal.style.opacity='0'; modal.style.pointerEvents='none';
+  document.getElementById('noteModalBox').style.transform='scale(.96)';
+}
+document.getElementById('noteModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('noteModal')) closeNoteModal();
+});
+
+/* ---- Toast ---- */
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show ' + type;
+  setTimeout(() => { t.className = 'toast'; }, 2800);
+}
+
+/* ---- Init ---- */
+populateSubjectSelects();
+
+// Seed demo lesson notes if none exist
+function getDemoNotes() {
+  return [
+    { id:1, title:'Photosynthesis — Process and Importance', subject:'Basic Science', class:'Both', week:'Week 4 · Term 2', body:'Photosynthesis is the process by which green plants manufacture their own food using sunlight, carbon dioxide, and water.\n\nThe equation:\n6CO₂ + 6H₂O + Light Energy → C₆H₁₂O₆ + 6O₂\n\nConditions required:\n- Chlorophyll (green pigment)\n- Sunlight\n- Carbon dioxide\n- Water\n\nProducts:\n- Glucose (food)\n- Oxygen (released)\n\nImportance:\n1. Primary source of energy for all living things\n2. Maintains atmospheric oxygen levels\n3. Basis of all food chains', author:'Mr. Ibrahim', created:'12 Mar 2025' },
+    { id:2, title:'Formal Letter Writing — Structure and Examples', subject:'English Language', class:'JSS3A', week:'Week 5 · Term 2', body:'A formal letter has five main parts:\n\n1. Sender\'s address (top right)\n2. Date\n3. Recipient\'s address (left)\n4. Salutation (Dear Sir/Madam)\n5. Body — introduction, main content, conclusion\n6. Subscription (Yours faithfully)\n7. Signature and full name\n\nNote: "Yours faithfully" is used when you do not know the recipient\'s name. "Yours sincerely" is used when you do.', author:'Mrs. Okafor', created:'10 Mar 2025' },
+    { id:3, title:'Integers and Number Line', subject:'Mathematics', class:'Both', week:'Week 3 · Term 2', body:'Integers are whole numbers including negative numbers, zero, and positive numbers.\n\nNumber line rules:\n- Numbers increase from left to right\n- Negative integers are to the left of zero\n- Positive integers are to the right of zero\n\nOperations:\nAdding a negative = subtracting\n(-3) + (-4) = -7\n\nSubtracting a negative = adding\n5 - (-3) = 5 + 3 = 8\n\nMultiplying integers:\nPositive × Positive = Positive\nNegative × Negative = Positive\nPositive × Negative = Negative', author:'Mr. Adeyemi', created:'8 Mar 2025' }
+  ];
+}
+const existingNotes = localStorage.getItem('tcc_lesson_notes');
+if (!existingNotes || JSON.parse(existingNotes).length === 0) {
+  localStorage.setItem('tcc_lesson_notes', JSON.stringify(getDemoNotes()));
+}
+renderNotes();
+</script>
+</body>
+</html>
