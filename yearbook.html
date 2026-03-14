@@ -22,6 +22,27 @@
       z-index: 9998;
     }
 
+    /* Results link on card back */
+    .yearbook__card-results {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-cream);
+      border: 1px solid rgba(248,244,236,0.35);
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .yearbook__card-results:hover {
+      background: rgba(248,244,236,0.12);
+      border-color: rgba(248,244,236,0.7);
+    }
+
     /* Portrait placeholder */
     .portrait-ph {
       width: 100%;
@@ -196,14 +217,14 @@
       <!-- Portrait grid — flip cards -->
       <div class="grid--portraits" data-stagger>
 
-        <!-- Student card template × 8 (replace with real students) -->
-        <div class="yearbook__card yearbook__card--flip yearbook__portrait-hover" data-animate="fade-up" title="Click to flip">
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
           <div class="yearbook__card-inner">
             <div class="yearbook__card-front"><div class="portrait-ph ph--1"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
             <div class="yearbook__card-back">
               <p class="yearbook__card-quote">"The beginning of everything was here."</p>
-              <p class="yearbook__card-name">Student Name</p>
-              <p class="yearbook__card-ambition">Future: Medicine</p>
+              <p class="yearbook__card-name">Angel</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Angel" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
             </div>
           </div>
         </div>
@@ -213,8 +234,9 @@
             <div class="yearbook__card-front"><div class="portrait-ph ph--2"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
             <div class="yearbook__card-back">
               <p class="yearbook__card-quote">"I found my voice in these classrooms."</p>
-              <p class="yearbook__card-name">Student Name</p>
-              <p class="yearbook__card-ambition">Future: Law</p>
+              <p class="yearbook__card-name">Bamise</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Bamise" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
             </div>
           </div>
         </div>
@@ -223,9 +245,10 @@
           <div class="yearbook__card-inner">
             <div class="yearbook__card-front"><div class="portrait-ph ph--3"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
             <div class="yearbook__card-back">
-              <p class="yearbook__card-quote">"Every race I ran taught me something."</p>
-              <p class="yearbook__card-name">Student Name</p>
-              <p class="yearbook__card-ambition">Future: Engineering</p>
+              <p class="yearbook__card-quote">"Every challenge made me stronger."</p>
+              <p class="yearbook__card-name">Bright</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Bright" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
             </div>
           </div>
         </div>
@@ -235,8 +258,9 @@
             <div class="yearbook__card-front"><div class="portrait-ph ph--4"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
             <div class="yearbook__card-back">
               <p class="yearbook__card-quote">"Tendercare gave me the full range."</p>
-              <p class="yearbook__card-name">Student Name</p>
-              <p class="yearbook__card-ambition">Future: Architecture</p>
+              <p class="yearbook__card-name">Dorcas</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Dorcas" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
             </div>
           </div>
         </div>
@@ -246,8 +270,9 @@
             <div class="yearbook__card-front"><div class="portrait-ph ph--5"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
             <div class="yearbook__card-back">
               <p class="yearbook__card-quote">"I leave ready for anything."</p>
-              <p class="yearbook__card-name">Student Name</p>
-              <p class="yearbook__card-ambition">Future: Finance</p>
+              <p class="yearbook__card-name">Enoch</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Enoch" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
             </div>
           </div>
         </div>
@@ -257,8 +282,9 @@
             <div class="yearbook__card-front"><div class="portrait-ph ph--6"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
             <div class="yearbook__card-back">
               <p class="yearbook__card-quote">"Five years. A lifetime of memories."</p>
-              <p class="yearbook__card-name">Student Name</p>
-              <p class="yearbook__card-ambition">Future: Journalism</p>
+              <p class="yearbook__card-name">Famous</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Famous" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
             </div>
           </div>
         </div>
@@ -268,8 +294,9 @@
             <div class="yearbook__card-front"><div class="portrait-ph ph--7"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
             <div class="yearbook__card-back">
               <p class="yearbook__card-quote">"This place believed in me first."</p>
-              <p class="yearbook__card-name">Student Name</p>
-              <p class="yearbook__card-ambition">Future: Medicine</p>
+              <p class="yearbook__card-name">Fauziyyah</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Fauziyyah" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
             </div>
           </div>
         </div>
@@ -279,15 +306,184 @@
             <div class="yearbook__card-front"><div class="portrait-ph ph--8"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
             <div class="yearbook__card-back">
               <p class="yearbook__card-quote">"We were the standard."</p>
-              <p class="yearbook__card-name">Student Name</p>
-              <p class="yearbook__card-ambition">Future: Technology</p>
+              <p class="yearbook__card-name">Fawaz</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Fawaz" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--1"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Knowledge is the only currency I need."</p>
+              <p class="yearbook__card-name">Fiyin</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Fiyin" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--2"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"I came, I learned, I grew."</p>
+              <p class="yearbook__card-name">Habitat</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Habitat" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--3"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Every step here shaped my tomorrow."</p>
+              <p class="yearbook__card-name">Kaosara</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Kaosara" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--4"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Grateful for every lesson."</p>
+              <p class="yearbook__card-name">Khadija</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Khadija" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--5"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Mercy is my name and my nature."</p>
+              <p class="yearbook__card-name">Mercy</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Mercy" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--6"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Built to lead, trained to serve."</p>
+              <p class="yearbook__card-name">Michael</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Michael" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--7"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"The future belongs to the prepared."</p>
+              <p class="yearbook__card-name">Moyin</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Moyin" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--8"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"I came here to prosper — and I did."</p>
+              <p class="yearbook__card-name">Prosper</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Prosper" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--1"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Quiet but unstoppable."</p>
+              <p class="yearbook__card-name">Rita</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Rita" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--2"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"I leave bigger than I arrived."</p>
+              <p class="yearbook__card-name">Rokibat</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Rokibat" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--3"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"God's plan, my dedication."</p>
+              <p class="yearbook__card-name">Samuel</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Samuel" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--4"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Double the name, double the drive."</p>
+              <p class="yearbook__card-name">Taiwo</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Taiwo" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--5"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Watch what happens next."</p>
+              <p class="yearbook__card-name">Temi</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Temi" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearbook__card yearbook__card--flip" data-animate="fade-up" title="Click to flip">
+          <div class="yearbook__card-inner">
+            <div class="yearbook__card-front"><div class="portrait-ph ph--6"><div class="portrait-ph__circle"></div><div class="portrait-ph__bar"></div><div class="portrait-ph__bar portrait-ph__bar--sm"></div></div></div>
+            <div class="yearbook__card-back">
+              <p class="yearbook__card-quote">"Faith carried me through every exam."</p>
+              <p class="yearbook__card-name">Zainab</p>
+              <p class="yearbook__card-ambition">SS3 Science</p>
+              <a href="result.html?student=Zainab" class="yearbook__card-results" onclick="event.stopPropagation()">View Results →</a>
             </div>
           </div>
         </div>
 
       </div>
 
-      <p style="font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.3;text-align:center;margin-top:var(--space-6);letter-spacing:var(--tracking-wide);">Tap or click any portrait to reveal their message · Replace placeholders with real photos</p>
+      <p style="font-family:var(--font-sans);font-size:var(--text-xs);opacity:0.3;text-align:center;margin-top:var(--space-6);letter-spacing:var(--tracking-wide);">Flip any portrait to see their message · Click View Results to access their academic record</p>
 
       <div class="ornament" style="margin-top:var(--space-12);" data-animate="fade-up">
         <div class="ornament__line"></div>

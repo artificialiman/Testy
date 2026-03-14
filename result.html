@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results — Tendercare Comprehensive College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tendercare.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #5B2D8E;
+      --purple-deep:  #3A1A5C;
+      --purple-light: #C4A8E0;
+      --purple-ghost: #F0E8FA;
+      --cream:        #F8F4EC;
+      --cream-warm:   #F0E8D8;
+      --cream-deep:   #E4D8C4;
+      --ink:          #1A1020;
+      --ash:          #A8A8B0;
+      --ash-light:    #E8E8F0;
+      --white:        #FFFFFF;
+      --font-serif:   'Cormorant Garamond', Georgia, serif;
+      --font-sans:    'DM Sans', system-ui, sans-serif;
+    }
+
+    body { font-family: var(--font-sans); background: #D8D0C4; color: var(--ink); min-height: 100vh; }
+
+    /* ═══════════════════════
+       GATE
+    ═══════════════════════ */
+    #gate {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(91,45,142,0.45) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(58,26,92,0.5) 0%, transparent 50%),
+        #0e0820;
+    }
+
+    .gate-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(196,168,224,0.18);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+
+    .gate-logo {
+      width: 68px; height: 68px;
+      border: 1.5px dashed rgba(196,168,224,0.35);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+      background: rgba(196,168,224,0.07);
+    }
+    .gate-logo span { font-size: 0.5rem; color: var(--purple-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.5; }
+
+    .gate-school {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: 0.3rem;
+    }
+    .gate-student-name {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--purple-light);
+      opacity: 0.75;
+      margin-bottom: 2rem;
+      min-height: 1.4rem;
+    }
+
+    .gate-label {
+      display: block;
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--purple-light);
+      opacity: 0.65;
+      margin-bottom: 0.5rem;
+    }
+
+    .gate-input-wrap { position: relative; margin-bottom: 1.25rem; }
+    .gate-input {
+      width: 100%;
+      padding: 0.85rem 3rem 0.85rem 1rem;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      background: rgba(0,0,0,0.25);
+      border: 1.5px solid rgba(196,168,224,0.2);
+      border-radius: 8px;
+      color: var(--white);
+      letter-spacing: 0.1em;
+      transition: border-color 0.2s;
+    }
+    .gate-input:focus { outline: none; border-color: var(--purple-light); }
+    .gate-input::placeholder { color: rgba(255,255,255,0.2); letter-spacing: 0; }
+    .gate-input.shake { animation: shake 0.35s ease; border-color: #e74c3c; }
+
+    .toggle-pw {
+      position: absolute; right: 0.85rem; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(196,168,224,0.45); font-size: 0.95rem; padding: 0; line-height: 1;
+    }
+    .toggle-pw:hover { color: var(--purple-light); }
+
+    .gate-error {
+      font-size: 0.78rem; color: #f1948a;
+      margin-bottom: 0.75rem; min-height: 1.1rem;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .gate-error.show { opacity: 1; }
+
+    .gate-btn {
+      width: 100%; padding: 0.9rem;
+      font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--purple); color: var(--white);
+      border: none; border-radius: 8px; cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .gate-btn:hover { background: #7B4DB0; }
+    .gate-btn:active { transform: scale(0.98); }
+
+    .gate-back {
+      display: inline-block; margin-top: 1.5rem;
+      font-size: 0.75rem; color: rgba(196,168,224,0.4);
+      text-decoration: none; letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .gate-back:hover { color: var(--purple-light); }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-8px); }
+      40%      { transform: translateX(8px); }
+      60%      { transform: translateX(-5px); }
+      80%      { transform: translateX(5px); }
+    }
+
+    /* ═══════════════════════
+       RESULT PAGE
+    ═══════════════════════ */
+    #resultPage { display: none; }
+
+    .result-nav {
+      background: var(--purple-deep);
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .result-nav-left { display: flex; align-items: center; gap: 0.75rem; }
+    .result-nav-logo {
+      width: 34px; height: 34px;
+      border: 1px dashed rgba(196,168,224,0.3); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .result-nav-logo span { font-size: 0.42rem; color: var(--purple-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; text-align: center; line-height: 1.4; }
+    .result-nav-title { font-family: var(--font-serif); font-size: 1rem; color: var(--white); }
+    .result-nav-actions { display: flex; gap: 0.75rem; }
+    .nav-btn {
+      font-family: var(--font-sans); font-size: 0.72rem; font-weight: 600;
+      padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer;
+      letter-spacing: 0.06em; text-transform: uppercase; border: none;
+      transition: background 0.2s;
+    }
+    .nav-btn--print { background: var(--purple); color: var(--white); }
+    .nav-btn--print:hover { background: #7B4DB0; }
+    .nav-btn--lock { background: rgba(231,76,60,0.15); border: 1px solid rgba(231,76,60,0.3); color: #f1948a; }
+    .nav-btn--lock:hover { background: rgba(231,76,60,0.25); }
+
+    /* Sheet */
+    .sheet-wrap { padding: 2rem 1rem 4rem; }
+    .sheet {
+      max-width: 820px; margin: 0 auto;
+      background: var(--white);
+      border: 1px solid var(--cream-deep);
+      border-radius: 4px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+
+    /* Letterhead */
+    .letterhead {
+      padding: 1.75rem 2.5rem 1.25rem;
+      border-bottom: 3px solid var(--purple);
+      display: grid; grid-template-columns: 72px 1fr 72px;
+      align-items: center; gap: 1.5rem;
+      background: var(--cream);
+    }
+    .logo-slot, .stamp-slot {
+      width: 72px; height: 72px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-slot { border: 1.5px dashed var(--purple-light); background: var(--purple-ghost); }
+    .logo-slot span { font-size: 0.55rem; text-align: center; color: var(--purple); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.5; padding: 0 6px; }
+    .stamp-slot { border: 1.5px dashed var(--ash); background: var(--ash-light); }
+    .stamp-slot span { font-size: 0.55rem; text-align: center; color: var(--ash); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.5; padding: 0 6px; }
+    .school-identity { text-align: center; }
+    .school-name { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 600; color: var(--purple-deep); letter-spacing: 0.02em; line-height: 1.2; }
+    .school-address { font-size: 0.72rem; color: var(--ash); margin-top: 0.25rem; }
+    .school-tagline { font-family: var(--font-serif); font-style: italic; font-size: 0.82rem; color: var(--purple); margin-top: 0.2rem; opacity: 0.75; }
+
+    .report-bar {
+      background: var(--purple); color: var(--white);
+      text-align: center; padding: 0.55rem 2rem;
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+
+    /* Meta */
+    .meta {
+      padding: 1.25rem 2.5rem;
+      background: var(--cream); border-bottom: 1px solid var(--cream-deep);
+      display: grid; grid-template-columns: 80px 1fr; gap: 1.5rem; align-items: start;
+    }
+    .photo-box {
+      width: 80px; height: 100px;
+      border: 1.5px solid var(--cream-deep); border-radius: 4px;
+      overflow: hidden; background: var(--ash-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .photo-box img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .photo-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 100%; height: 100%; }
+    .photo-ph-circle { width: 32px; height: 32px; border-radius: 50%; background: rgba(91,45,142,0.15); }
+    .photo-ph-bar { width: 44px; height: 4px; border-radius: 2px; background: rgba(91,45,142,0.1); }
+    .meta-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.65rem 1.5rem; }
+    .mf { display: flex; flex-direction: column; gap: 1px; }
+    .ml { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ash); }
+    .mv { font-size: 0.875rem; font-weight: 500; border-bottom: 1px solid var(--cream-deep); padding-bottom: 2px; min-height: 1.35rem; color: var(--ink); }
+    .mv.big { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 600; color: var(--purple-deep); }
+
+    /* Term tabs */
+    .term-tabs { display: flex; border-bottom: 1px solid var(--cream-deep); background: var(--cream-warm); }
+    .term-tab {
+      flex: 1; text-align: center; padding: 0.7rem 0.5rem;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; border: none; background: transparent; font-family: var(--font-sans);
+      color: var(--ash); border-bottom: 3px solid transparent; transition: all 0.2s;
+    }
+    .term-tab.active { color: var(--purple); border-bottom-color: var(--purple); background: var(--white); }
+    .term-tab.locked { opacity: 0.4; cursor: not-allowed; }
+    .tbadge {
+      display: inline-block; font-size: 0.52rem; padding: 1px 5px; border-radius: 3px; margin-left: 3px;
+      background: var(--ash-light); color: var(--ash); vertical-align: middle;
+    }
+    .term-tab.active .tbadge { background: var(--purple-ghost); color: var(--purple); }
+
+    /* Panels */
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .panel-locked { display: none; padding: 3rem 2rem; text-align: center; }
+    .panel-locked.active { display: block; }
+    .lock-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--ash-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.4rem; }
+    .lock-title { font-family: var(--font-serif); font-size: 1.15rem; color: var(--ink); margin-bottom: 0.4rem; }
+    .lock-sub { font-size: 0.78rem; color: var(--ash); max-width: 28ch; margin: 0 auto; line-height: 1.65; }
+
+    /* Scores table */
+    .scores { padding: 1.5rem 2.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+    thead tr { background: var(--purple); color: var(--white); }
+    thead th { padding: 0.55rem 0.65rem; text-align: center; font-weight: 600; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+    thead th:first-child { text-align: left; }
+    tbody tr:nth-child(even) { background: var(--cream); }
+    tbody td { padding: 0.5rem 0.65rem; text-align: center; border-bottom: 1px solid var(--cream-deep); }
+    tbody td:first-child { text-align: left; font-weight: 500; }
+    tfoot tr { background: var(--purple-deep); }
+    tfoot td { padding: 0.55rem 0.65rem; font-weight: 600; font-size: 0.75rem; color: var(--white); border: none; text-align: center; }
+    tfoot td:first-child { text-align: left; }
+
+    .g { display: inline-block; padding: 2px 7px; border-radius: 3px; font-weight: 700; font-size: 0.72rem; }
+    .g-a1 { background:#D4EDDA; color:#155724; } .g-b2 { background:#CCE5FF; color:#004085; }
+    .g-b3 { background:#D6EAF8; color:#1A5276; } .g-c4 { background:#FFF3CD; color:#856404; }
+    .g-c5 { background:#FFF8E1; color:#7B6200; } .g-c6 { background:#FDF3E3; color:#7E5109; }
+    .g-d7 { background:#FDEBD0; color:#935116; } .g-e8 { background:#FDEDEC; color:#922B21; }
+    .g-f9 { background:#F9EBEA; color:#7B241C; } .g-em { background:var(--ash-light); color:var(--ash); }
+
+    /* Grade key */
+    .grade-key {
+      margin: 0 2.5rem 1.25rem; padding: 0.65rem 1rem;
+      background: var(--cream); border: 1px solid var(--cream-deep); border-radius: 4px;
+      display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; align-items: center; font-size: 0.68rem;
+    }
+    .gk-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ash); }
+    .gk-item { display: flex; align-items: center; gap: 3px; }
+
+    /* Stats */
+    .stats { margin: 0 2.5rem 1.25rem; display: grid; grid-template-columns: repeat(4,1fr); gap: 0.65rem; }
+    .stat { background: var(--cream); border: 1px solid var(--cream-deep); border-radius: 4px; padding: 0.65rem 0.85rem; text-align: center; }
+    .stat-l { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ash); font-weight: 600; }
+    .stat-v { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 600; color: var(--purple-deep); line-height: 1.1; }
+
+    /* Comments */
+    .comments {
+      padding: 1.1rem 2.5rem 1.5rem; border-top: 1px solid var(--cream-deep);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+    }
+    .cb { display: flex; flex-direction: column; gap: 0.35rem; }
+    .cb-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ash); }
+    .cb-box {
+      border: 1px solid var(--cream-deep); border-radius: 4px; padding: 0.55rem 0.7rem;
+      min-height: 56px; font-family: var(--font-serif); font-size: 0.875rem; font-style: italic;
+      color: var(--ink); background: var(--cream); width: 100%;
+      line-height: 1.6; resize: none;
+    }
+    .cb-box::placeholder { color: var(--ash); }
+    .sig { display: flex; align-items: flex-end; gap: 1rem; margin-top: 0.35rem; }
+    .sig-line { flex: 1; border-bottom: 1px solid var(--ink); height: 32px; position: relative; }
+    .sig-line span { position: absolute; bottom: -17px; left: 0; font-size: 0.58rem; color: var(--ash); text-transform: uppercase; letter-spacing: 0.07em; }
+    .sig-date { font-size: 0.65rem; color: var(--ash); white-space: nowrap; padding-bottom: 2px; }
+
+    /* Footer */
+    .sheet-foot {
+      padding: 0.65rem 2.5rem; background: var(--purple-deep);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sheet-foot-school { font-family: var(--font-serif); font-size: 0.8rem; color: var(--purple-light); font-style: italic; }
+    .sheet-foot-ref { font-size: 0.6rem; color: rgba(196,168,224,0.4); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    @media print {
+      body { background: white; }
+      #gate { display: none !important; }
+      #resultPage { display: block !important; }
+      .result-nav, .sheet-wrap > *:not(.sheet) { display: none; }
+      .sheet { box-shadow: none; }
+      .cb-box { border: none; background: transparent; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════
+     GATE
+═══════════════════════════════ -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-logo"><span>TCC<br>Logo</span></div>
+    <div class="gate-school">Tendercare<br>Comprehensive College</div>
+    <div class="gate-student-name" id="gateStudentName"></div>
+
+    <label class="gate-label" for="pw">Access Code</label>
+    <div class="gate-input-wrap">
+      <input type="password" id="pw" class="gate-input" placeholder="Enter access code"
+        onkeydown="if(event.key==='Enter') unlock()">
+      <button class="toggle-pw" onclick="togglePw()" type="button">👁</button>
+    </div>
+    <div class="gate-error" id="gateError">Incorrect access code. Please try again.</div>
+    <button class="gate-btn" onclick="unlock()">View Results</button>
+    <a href="yearbook.html" class="gate-back">← Back to Yearbook</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     RESULT PAGE
+═══════════════════════════════ -->
+<div id="resultPage">
+
+  <nav class="result-nav">
+    <div class="result-nav-left">
+      <div class="result-nav-logo"><span>TCC</span></div>
+      <div class="result-nav-title">Academic Results</div>
+    </div>
+    <div class="result-nav-actions">
+      <button class="nav-btn nav-btn--print" onclick="window.print()">Print / PDF</button>
+      <button class="nav-btn nav-btn--lock" onclick="relock()">🔒 Lock</button>
+    </div>
+  </nav>
+
+  <div class="sheet-wrap">
+    <div class="sheet">
+
+      <div class="letterhead">
+        <div class="logo-slot"><span>School<br>Logo</span></div>
+        <div class="school-identity">
+          <div class="school-name">Tendercare Comprehensive College</div>
+          <div class="school-address">Lagos, Nigeria</div>
+          <div class="school-tagline">"Raising minds. Shaping futures."</div>
+        </div>
+        <div class="stamp-slot"><span>Official<br>Stamp</span></div>
+      </div>
+
+      <div class="report-bar">Academic Progress Report &nbsp;·&nbsp; 2025/2026 Session</div>
+
+      <div class="meta">
+        <div class="photo-box" id="photoBox">
+          <div class="photo-ph">
+            <div class="photo-ph-circle"></div>
+            <div class="photo-ph-bar"></div>
+            <div class="photo-ph-bar" style="width:36px;"></div>
+          </div>
+        </div>
+        <div class="meta-grid">
+          <div class="mf"><span class="ml">Student Name</span><span class="mv big" id="metaName">—</span></div>
+          <div class="mf"><span class="ml">Student ID</span><span class="mv" id="metaId">—</span></div>
+          <div class="mf"><span class="ml">Class</span><span class="mv" id="metaClass">—</span></div>
+          <div class="mf"><span class="ml">Session</span><span class="mv">2025/2026</span></div>
+          <div class="mf"><span class="ml">Class Teacher</span><span class="mv">_________________</span></div>
+          <div class="mf"><span class="ml">No. in Class</span><span class="mv" id="metaClassSize">—</span></div>
+        </div>
+      </div>
+
+      <div class="term-tabs">
+        <button class="term-tab locked" onclick="switchTerm('t1',event)">First Term <span class="tbadge">Not Uploaded</span></button>
+        <button class="term-tab active" onclick="switchTerm('t2',event)">Second Term <span class="tbadge">Current</span></button>
+        <button class="term-tab locked" onclick="switchTerm('t3',event)">Third Term <span class="tbadge">Not Uploaded</span></button>
+      </div>
+
+      <!-- Term 1 -->
+      <div class="panel-locked" id="panel-t1">
+        <div class="lock-icon">📋</div>
+        <div class="lock-title">First Term results not yet uploaded</div>
+        <div class="lock-sub">Scores will appear here once submitted and approved.</div>
+      </div>
+
+      <!-- Term 2 -->
+      <div class="panel active" id="panel-t2">
+        <div class="scores">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:32%;">Subject</th>
+                <th>CA <span style="font-size:0.58rem;opacity:0.7;font-weight:400;">/30</span></th>
+                <th>Exam <span style="font-size:0.58rem;opacity:0.7;font-weight:400;">/70</span></th>
+                <th>Total <span style="font-size:0.58rem;opacity:0.7;font-weight:400;">/100</span></th>
+                <th>Grade</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody id="scoresBody"></tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2" style="text-align:left;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;">Total / Average</td>
+                <td id="footAvg">—</td>
+                <td id="footTotal">—</td>
+                <td colspan="2" id="footPos">Position: —</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="grade-key">
+          <span class="gk-label">Grade Key:</span>
+          <span class="gk-item"><span class="g g-a1">A1</span> 75–100</span>
+          <span class="gk-item"><span class="g g-b2">B2</span> 70–74</span>
+          <span class="gk-item"><span class="g g-b3">B3</span> 65–69</span>
+          <span class="gk-item"><span class="g g-c4">C4</span> 60–64</span>
+          <span class="gk-item"><span class="g g-c5">C5</span> 55–59</span>
+          <span class="gk-item"><span class="g g-c6">C6</span> 50–54</span>
+          <span class="gk-item"><span class="g g-d7">D7</span> 45–49</span>
+          <span class="gk-item"><span class="g g-e8">E8</span> 40–44</span>
+          <span class="gk-item"><span class="g g-f9">F9</span> 0–39</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="stat-l">Total Score</div><div class="stat-v" id="sTotal">—</div></div>
+          <div class="stat"><div class="stat-l">Average</div><div class="stat-v" id="sAvg">—</div></div>
+          <div class="stat"><div class="stat-l">Highest</div><div class="stat-v" id="sHigh">—</div></div>
+          <div class="stat"><div class="stat-l">Lowest</div><div class="stat-v" id="sLow">—</div></div>
+        </div>
+
+        <div class="comments">
+          <div class="cb">
+            <span class="cb-label">Class Teacher's Comment</span>
+            <textarea class="cb-box" rows="3" placeholder="Class teacher's remark…"></textarea>
+            <div class="sig">
+              <div class="sig-line"><span>Signature</span></div>
+              <span class="sig-date">Date: ___________</span>
+            </div>
+          </div>
+          <div class="cb">
+            <span class="cb-label">Principal's Comment</span>
+            <textarea class="cb-box" rows="3" placeholder="Principal's remark…"></textarea>
+            <div class="sig">
+              <div class="sig-line"><span>Signature · Mr Aladesiun (Principal)</span></div>
+              <span class="sig-date">Date: ___________</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Term 3 -->
+      <div class="panel-locked" id="panel-t3">
+        <div class="lock-icon">📋</div>
+        <div class="lock-title">Third Term results not yet uploaded</div>
+        <div class="lock-sub">Scores will appear here once submitted and approved.</div>
+      </div>
+
+      <div class="sheet-foot">
+        <span class="sheet-foot-school">Tendercare Comprehensive College</span>
+        <span class="sheet-foot-ref" id="footRef">2025/2026 · Term 2</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Password (change here) ──
+  const PASSWORD = 'tcc2025';
+
+  // ── Student data ──
+  const STUDENTS = {
+    // SS3 Science
+    'Angel':     { id: 'TCH-2025-335', class: 'SS3 Science', size: 22 },
+    'Bamise':    { id: 'TCH-2025-336', class: 'SS3 Science', size: 22 },
+    'Bright':    { id: 'TCH-2025-337', class: 'SS3 Science', size: 22 },
+    'Dorcas':    { id: 'TCH-2025-338', class: 'SS3 Science', size: 22 },
+    'Enoch':     { id: 'TCH-2025-339', class: 'SS3 Science', size: 22 },
+    'Famous':    { id: 'TCH-2025-340', class: 'SS3 Science', size: 22 },
+    'Fauziyyah': { id: 'TCH-2025-341', class: 'SS3 Science', size: 22 },
+    'Fawaz':     { id: 'TCH-2025-342', class: 'SS3 Science', size: 22 },
+    'Fiyin':     { id: 'TCH-2025-343', class: 'SS3 Science', size: 22 },
+    'Habitat':   { id: 'TCH-2025-344', class: 'SS3 Science', size: 22 },
+    'Kaosara':   { id: 'TCH-2025-345', class: 'SS3 Science', size: 22 },
+    'Khadija':   { id: 'TCH-2025-346', class: 'SS3 Science', size: 22 },
+    'Mercy':     { id: 'TCH-2025-347', class: 'SS3 Science', size: 22 },
+    'Michael':   { id: 'TCH-2025-348', class: 'SS3 Science', size: 22 },
+    'Moyin':     { id: 'TCH-2025-349', class: 'SS3 Science', size: 22 },
+    'Prosper':   { id: 'TCH-2025-350', class: 'SS3 Science', size: 22 },
+    'Rita':      { id: 'TCH-2025-351', class: 'SS3 Science', size: 22 },
+    'Rokibat':   { id: 'TCH-2025-352', class: 'SS3 Science', size: 22 },
+    'Samuel':    { id: 'TCH-2025-353', class: 'SS3 Science', size: 22 },
+    'Taiwo':     { id: 'TCH-2025-354', class: 'SS3 Science', size: 22 },
+    'Temi':      { id: 'TCH-2025-355', class: 'SS3 Science', size: 22 },
+    'Zainab':    { id: 'TCH-2025-356', class: 'SS3 Science', size: 22 },
+  };
+
+  const SUBJECTS = {
+    'SS3 Science': ['English','Mathematics','Physics','Chemistry','Biology','Further Math','Agriculture','Livestock','Commerce','Marketing','Economics','Data Processing','Citizenship & Heritage','History'],
+  };
+
+  const REMARKS = { A1:'Excellent', B2:'Very Good', B3:'Good', C4:'Credit', C5:'Credit', C6:'Credit', D7:'Pass', E8:'Pass', F9:'Fail' };
+  const PHOTO_BASE = 'https://raw.githubusercontent.com/artificialiman/Testy/main/';
+
+  // ── Read student from URL ──
+  const params   = new URLSearchParams(window.location.search);
+  const student  = params.get('student') || '';
+  const info     = STUDENTS[student];
+
+  // ── Set gate label ──
+  if (student) {
+    document.getElementById('gateStudentName').textContent = 'Results for ' + student;
+    document.title = student + ' — Results — TCC';
+  }
+
+  function unlock() {
+    const val = document.getElementById('pw').value;
+    const err = document.getElementById('gateError');
+    const inp = document.getElementById('pw');
+    if (val === PASSWORD) {
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('resultPage').style.display = 'block';
+      err.classList.remove('show');
+      populateResult();
+    } else {
+      err.classList.add('show');
+      inp.classList.remove('shake');
+      void inp.offsetWidth;
+      inp.classList.add('shake');
+      inp.select();
+    }
+  }
+
+  function relock() {
+    document.getElementById('resultPage').style.display = 'none';
+    document.getElementById('gate').style.display = 'flex';
+    document.getElementById('pw').value = '';
+  }
+
+  function togglePw() {
+    const i = document.getElementById('pw');
+    i.type = i.type === 'password' ? 'text' : 'password';
+  }
+
+  function grade(t) {
+    if (t === '' || t === null) return '—';
+    const n = Number(t);
+    if (n >= 75) return 'A1'; if (n >= 70) return 'B2'; if (n >= 65) return 'B3';
+    if (n >= 60) return 'C4'; if (n >= 55) return 'C5'; if (n >= 50) return 'C6';
+    if (n >= 45) return 'D7'; if (n >= 40) return 'E8'; return 'F9';
+  }
+  function gc(g) { return (!g || g === '—') ? 'g-em' : 'g-' + g.toLowerCase(); }
+
+  function populateResult() {
+    if (!info) {
+      document.getElementById('metaName').textContent = student || 'Unknown student';
+      document.getElementById('scoresBody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--ash);">No data found for this student.</td></tr>';
+      return;
+    }
+
+    // Meta
+    document.getElementById('metaName').textContent      = student;
+    document.getElementById('metaId').textContent        = info.id;
+    document.getElementById('metaClass').textContent     = info.class;
+    document.getElementById('metaClassSize').textContent = info.size;
+    document.getElementById('footRef').textContent       = info.class + ' · 2025/2026 · Term 2';
+
+    // Photo
+    const box = document.getElementById('photoBox');
+    const src = PHOTO_BASE + encodeURIComponent(student) + '.jpg';
+    box.innerHTML = `<img src="${src}" alt="${student}" onerror="this.parentElement.innerHTML='<div class=\\'photo-ph\\'><div class=\\'photo-ph-circle\\'></div><div class=\\'photo-ph-bar\\'></div><div class=\\'photo-ph-bar\\" style=\\"width:36px;\\"\\></div></div>'">`;
+
+    // Scores table — empty rows ready for printing / manual fill
+    const subs = SUBJECTS[info.class] || [];
+    document.getElementById('scoresBody').innerHTML = subs.map(sub => `
+      <tr>
+        <td>${sub}</td>
+        <td style="color:var(--ash);">—</td>
+        <td style="color:var(--ash);">—</td>
+        <td style="color:var(--ash);">—</td>
+        <td><span class="g g-em">—</span></td>
+        <td style="font-size:0.72rem;color:var(--ash);">—</td>
+      </tr>
+    `).join('');
+  }
+
+  function switchTerm(id, event) {
+    const tab = event.target.closest('.term-tab');
+    if (tab.classList.contains('locked')) return;
+    document.querySelectorAll('.term-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.panel, .panel-locked').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+  }
+</script>
+</body>
+</html>
